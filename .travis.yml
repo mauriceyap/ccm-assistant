@@ -9,7 +9,9 @@ install:
   
 script:
   - "ls"
-  - "zip -r deploy-zip/alexa.zip src"
+
+after_script:
+  - "zip -r deploy-zip/alexa.zip *"
 
 deploy:
   provider: s3
