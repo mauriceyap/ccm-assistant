@@ -11,6 +11,8 @@ script:
   - "ls"
 
 after_success:
+  - "pwd"
+  - "ls"
   - "zip -r deploy-zip/alexa.zip /home/travis/build/mauriceyap/ccm-assistant/src"
 
 deploy:
