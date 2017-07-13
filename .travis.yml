@@ -11,7 +11,8 @@ script:
   - "ls"
 
 after_script:
-  - "zip -r /home/travis/build/mauriceyap/ccm-assistant/deploy-zip/alexa.zip /home/travis/build/mauriceyap/ccm-assistant/src"
+  - "zip -r alexa.zip /home/travis/build/mauriceyap/ccm-assistant/src"
+  - "ls"
 
 deploy:
   provider: s3
