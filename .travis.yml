@@ -17,7 +17,7 @@ after_success:
   - "ls"
   - "mkdir deploy-zip"
   - "cd deploy-zip"
-  - "zip -r alexa.zip /home/travis/build/mauriceyap/ccm-assistant/src"
+  - "zip -r alexa.zip ../src"
 
 deploy:
   provider: s3
