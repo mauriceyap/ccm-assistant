@@ -11,7 +11,7 @@ script:
   - "ls"
 
 after_success:
-  - "zip -r deploy-zip/alexa.zip src"
+  - "cd $TRAVIS_BUILD_DIR && zip -r deploy-zip/alexa.zip src"
 
 deploy:
   provider: s3
