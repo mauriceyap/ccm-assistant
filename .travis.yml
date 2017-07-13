@@ -12,7 +12,7 @@ script:
 
 after_script:
   - "pwd"
-  - "zip -r deploy-zip/alexa.zip *"
+  - "zip -r alexa.zip /home/travis/build/mauriceyap/ccm-assistant/src"
 
 deploy:
   provider: s3
