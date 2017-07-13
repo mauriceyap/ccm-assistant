@@ -16,3 +16,4 @@ deploy:
   secret_access_key: "secret_access_key"
   bucket: "alexa-christchurchmayfairassistant"
   skip_cleanup: true
+  region: eu-west-1
