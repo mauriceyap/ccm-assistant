@@ -13,6 +13,8 @@ script:
 after_success:
   - "pwd"
   - "ls"
+  - "mkdir deploy-zip"
+  - "cd deploy-zip"
   - "zip -r alexa.zip /home/travis/build/mauriceyap/ccm-assistant/src"
 
 deploy:
@@ -24,3 +26,4 @@ deploy:
   bucket: "alexa-christchurchmayfairassistant"
   skip_cleanup: true
   region: eu-west-1
+  local_dir: deploy-zip
