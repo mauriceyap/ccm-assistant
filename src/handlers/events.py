@@ -10,19 +10,16 @@ def on_launch(launch_request, session):
     """ Called when the user launches the skill without specifying what they
     want
     """
-
-    print("on_launch requestId=" + launch_request['requestId'] +
-          ", sessionId=" + session['sessionId'])
-    # Dispatch to your skill's launch
+    # Dispatch to welcome intent handler
     return intents.get_welcome_response()
 
 
 def on_intent(intent_request, session):
-    """ Called when the user specifies an intent for this skill """
+    """ Called when the user specifies an intent """
     intent = intent_request['intent']
     intent_name = intent_request['intent']['name']
 
-    # Dispatch to your skill's intent handlers
+    # Dispatch to intent handlers
     if intent_name == "MyColorIsIntent":
         return intents.set_color_in_session(intent, session)
     elif intent_name == "WhatsMyColorIntent":
@@ -40,4 +37,4 @@ def on_session_ended(session_ended_request, session):
 
     Is not called when the skill returns should_end_session=true
     """
-    # add cleanup logic here
+    pass
