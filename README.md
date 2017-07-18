@@ -17,7 +17,7 @@ AWS Lambda function for Christ Church Mayfair Assistant Alexa skill.
   
   ***Okay. [The sermon recording]***
   
-  - Tells you when the next event is
+- Tells you when the next event is
 
   *Alexa, when's the next event at CCM?*
   
