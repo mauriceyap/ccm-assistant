@@ -1,35 +1,35 @@
 import utils.response_builder as response_builder
 
 
-def get_welcome_response():
+def handle_welcome():
 
     session_attributes = {}
     card_title = "Welcome"
     speech_output = "Christ Church Mayfair Assistant at your service."
     should_end_session = True
     reprompt_text = None
-    return response_builder.build_response(session_attributes, response_builder.build_speechlet_response(
-        card_title, speech_output, reprompt_text, should_end_session))
+    return response_builder.build_response(
+        session_attributes, response_builder.build_speechlet_response(
+            card_title, speech_output, reprompt_text, should_end_session
+        )
+    )
 
 
 def handle_session_end_request():
     card_title = "Session Ended"
-    speech_output = "Thank you for trying the Alexa Skills Kit sample. " \
-                    "Have a nice day! "
-    # Setting this to true ends the session and exits the skill.
+    speech_output = "Thanks for using the Christ Church Mayfair Assistant. "
     should_end_session = True
     return response_builder.build_response({}, response_builder.build_speechlet_response(
-        card_title, speech_output, None, should_end_session))
+        title=card_title, output=speech_output, reprompt_text=None, should_end_session=should_end_session))
 
 
 def create_favorite_color_attributes(favorite_color):
+    # TODO: safely get rid of this method
     return {"favoriteColor": favorite_color}
 
 
-def set_color_in_session(intent, session):
-    """ Sets the color in the session and prepares the speech to reply to the
-    user.
-    """
+def handle_get_sermon_passage(intent, session):
+    # TODO: implement this method
 
     card_title = intent['name']
     session_attributes = {}
@@ -54,7 +54,9 @@ def set_color_in_session(intent, session):
         card_title, speech_output, reprompt_text, should_end_session))
 
 
-def get_color_from_session(intent, session):
+def handle_get_next_event(intent, session):
+    # TODO: implement this method
+
     session_attributes = {}
     reprompt_text = None
 

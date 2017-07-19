@@ -1,4 +1,4 @@
-import handlers.intents as intents
+import intents.intents as intents
 
 
 def on_session_started(session_started_request, session):
@@ -11,7 +11,7 @@ def on_launch(launch_request, session):
     want
     """
     # Dispatch to welcome intent handler
-    return intents.get_welcome_response()
+    return intents.handle_welcome()
 
 
 def on_intent(intent_request, session):
@@ -20,12 +20,15 @@ def on_intent(intent_request, session):
     intent_name = intent_request['intent']['name']
 
     # Dispatch to intent handlers
-    if intent_name == "MyColorIsIntent":
-        return intents.set_color_in_session(intent, session)
-    elif intent_name == "WhatsMyColorIntent":
-        return intents.get_color_from_session(intent, session)
+    if intent_name == "GetSermonPassage":
+        return intents.handle_get_sermon_passage(intent, session)
+    elif intent_name == "PlaySermon":
+        # TODO: create handler for this intent
+        return intents.handle_get_next_event(intent, session)
+    elif intent_name == "GetNextEvent":
+        return intents.handle_get_next_event(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
-        return intents.get_welcome_response()
+        return intents.handle_welcome()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
         return intents.handle_session_end_request()
     else:
