@@ -29,29 +29,19 @@ def create_favorite_color_attributes(favorite_color):
 
 
 def handle_get_sermon_passage(intent, session):
-    # TODO: implement this method
-
-    card_title = intent['name']
+    card_title = "Get Sermon Bible Passage"
     session_attributes = {}
-    should_end_session = False
+    should_end_session = True
 
-    if 'Color' in intent['slots']:
-        favorite_color = intent['slots']['Color']['value']
-        session_attributes = create_favorite_color_attributes(favorite_color)
-        speech_output = "I now know your favorite color is " + \
-                        favorite_color + \
-                        ". You can ask me your favorite color by saying, " \
-                        "what's my favorite color?"
-        reprompt_text = "You can ask me your favorite color by saying, " \
-                        "what's my favorite color?"
-    else:
-        speech_output = "I'm not sure what your favorite color is. " \
-                        "Please try again."
-        reprompt_text = "I'm not sure what your favorite color is. " \
-                        "You can tell me your favorite color by saying, " \
-                        "my favorite color is red."
+    book = 'Matthew'
+    chapter = '17'
+    start_verse = '1'
+    end_verse = '10'  # TODO: change all this using fetched data
+
+    speech_output = book + ' chapter ' + chapter + ' verses ' + start_verse + ' to ' + end_verse
+
     return response_builder.build_response(session_attributes, response_builder.build_speechlet_response(
-        card_title, speech_output, reprompt_text, should_end_session))
+        title=card_title, output=speech_output, reprompt_text=None , should_end_session=should_end_session))
 
 
 def handle_get_next_event(intent, session):
