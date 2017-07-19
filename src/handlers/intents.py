@@ -2,20 +2,12 @@ import utils.response_builder as response_builder
 
 
 def get_welcome_response():
-    """ If we wanted to initialize the session to have some attributes we could
-    add those here
-    """
 
     session_attributes = {}
     card_title = "Welcome"
-    speech_output = "Welcome to the Alexa Skills Kit sample. " \
-                    "Please tell me your favorite color by saying, " \
-                    "my favorite color is red"
-    # If the user either does not reply to the welcome message or says something
-    # that is not understood, they will be prompted again with this text.
-    reprompt_text = "Please tell me your favorite color by saying, " \
-                    "my favorite color is red."
-    should_end_session = False
+    speech_output = "Christ Church Mayfair Assistant at your service."
+    should_end_session = True
+    reprompt_text = None
     return response_builder.build_response(session_attributes, response_builder.build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
