@@ -13,11 +13,11 @@ script:
   - "ls"
 
 after_success:
-  - "pwd"
-  - "ls"
+  - "cd src"
+  - "zip -r alexa.zip *"
+  - "cd .."
   - "mkdir deploy-zip"
-  - "cd deploy-zip"
-  - "zip -r alexa.zip ../src"
+  - "mv src/alexa.zip deploy-zip/"
 
 deploy:
   provider: s3
