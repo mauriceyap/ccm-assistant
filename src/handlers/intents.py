@@ -6,7 +6,7 @@ def get_welcome_response():
     session_attributes = {}
     card_title = "Welcome"
     speech_output = "Christ Church Mayfair Assistant at your service."
-    should_end_session = True
+    should_end_session = False
     reprompt_text = None
     return response_builder.build_response(session_attributes, response_builder.build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -14,8 +14,7 @@ def get_welcome_response():
 
 def handle_session_end_request():
     card_title = "Session Ended"
-    speech_output = "Thank you for trying the Alexa Skills Kit sample. " \
-                    "Have a nice day! "
+    speech_output = "Thanks for using Christ Church Mayfair Assistant"
     # Setting this to true ends the session and exits the skill.
     should_end_session = True
     return response_builder.build_response({}, response_builder.build_speechlet_response(
