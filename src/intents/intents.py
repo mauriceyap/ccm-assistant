@@ -11,7 +11,8 @@ def handle_welcome():
     reprompt_text = None
     return response_builder.build_response(
         session_attributes, response_builder.build_speechlet_response(
-            card_title, speech_output, reprompt_text, should_end_session
+            card_title, 'Hello!', speech_output, reprompt_text,
+            should_end_session
         )
     )
 
@@ -92,4 +93,4 @@ def handle_get_next_event(intent, session):
     # the user. If the user does not respond or says something that is not
     # understood, the session will end.
     return response_builder.build_response(session_attributes, response_builder.build_speechlet_response(
-        intent['name'], speech_output, reprompt_text, should_end_session))
+        intent['name'], None, speech_output, reprompt_text, should_end_session))
