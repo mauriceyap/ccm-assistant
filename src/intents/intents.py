@@ -7,7 +7,7 @@ def handle_welcome():
     session_attributes = {}
     card_title = "Welcome"
     speech_output = "Christ Church Mayfair Assistant at your service."
-    should_end_session = True
+    should_end_session = False
     reprompt_text = None
     return response_builder.build_response(
         session_attributes, response_builder.build_speechlet_response(
@@ -28,6 +28,9 @@ def handle_session_end_request():
 
 
 def handle_get_sermon_passage(intent, session):
+    return {
+              'type': 'Dialog.Delegate'
+            }
     if 'value' in intent['slots']['ReadPassage']:
         passage_text = intent['slots']['passageText']
         return response_builder.build_speechlet_response_no_card(
