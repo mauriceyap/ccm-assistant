@@ -1,4 +1,5 @@
 import utils.response_builder as response_builder
+import resources.bible as bible
 
 
 def handle_welcome():
@@ -16,32 +17,59 @@ def handle_welcome():
 
 
 def handle_session_end_request():
-    card_title = "Session Ended"
-    speech_output = "Thanks for using the Christ Church Mayfair Assistant. "
+    card_title = 'Goodbye'
+    speech_output = 'Thanks for using Christ Church Mayfair Assistant. '
     should_end_session = True
     return response_builder.build_response({}, response_builder.build_speechlet_response(
-        title=card_title, output=speech_output, reprompt_text=None, should_end_session=should_end_session))
-
-
-def create_favorite_color_attributes(favorite_color):
-    # TODO: safely get rid of this method
-    return {"favoriteColor": favorite_color}
+        card_title=card_title, card_content=speech_output,
+        output=speech_output, reprompt_text=None,
+        should_end_session=should_end_session))
 
 
 def handle_get_sermon_passage(intent, session):
-    card_title = "Get Sermon Bible Passage"
+    if intent['slots']['ReadPassage']['value']:
+        passage_text = intent['slots']['passageText']
+        return response_builder.build_speechlet_response_no_card(
+            passage_text, None, True)
+
     session_attributes = {}
     should_end_session = True
 
-    book = 'Matthew'
-    chapter = '17'
-    start_verse = '1'
-    end_verse = '10'  # TODO: change all this using fetched data
+    book = 'Mark'
+    start_chapter = '9'
+    start_verse = '30'
+    end_chapter = '9'
+    end_verse = '41'  # TODO: change all this using fetched data
 
-    speech_output = book + ' chapter ' + chapter + ' verses ' + start_verse + ' to ' + end_verse
+    card_title = book + ' ' + start_chapter + ':' + start_verse + '-' + \
+        end_chapter + ':' + end_verse
+    passage_text = bible.get_bible_text(book, start_chapter, start_verse,
+                                        end_chapter, end_verse)
 
-    return response_builder.build_response(session_attributes, response_builder.build_speechlet_response(
-        title=card_title, output=speech_output, reprompt_text=None , should_end_session=should_end_session))
+    speech_output = book + ' chapter ' + start_chapter + ' verse ' + \
+        start_verse + ' to  chapter ' + end_chapter + \
+        ' verse ' + end_verse + '. '
+    speech_output += 'I\'ve sent this bible passage to your Alexa app. '
+
+    speechlet_response = response_builder.build_speechlet_response(
+        card_title=card_title, card_content=passage_text,
+        output=speech_output, reprompt_text=None,
+        should_end_session=should_end_session)
+
+    speechlet_response['type'] = 'Dialog.ElicitSlot'
+    speechlet_response['slotToElicit'] = 'ReadPassage'
+    new_slots = {
+        'book': book,
+        'start_chapter': start_chapter,
+        'start_verse': start_verse,
+        'end_chapter': end_chapter,
+        'end_verse': end_verse,
+        'passageText': passage_text
+    }
+    speechlet_response['slots'] = new_slots
+
+    return response_builder.build_response(session_attributes,
+                                           speechlet_response)
 
 
 def handle_get_next_event(intent, session):
