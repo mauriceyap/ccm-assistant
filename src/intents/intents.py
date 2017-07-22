@@ -28,7 +28,7 @@ def handle_session_end_request():
 
 
 def handle_get_sermon_passage(intent, session):
-    if intent['slots']['ReadPassage']['value']:
+    if 'value' in intent['slots']['ReadPassage']:
         passage_text = intent['slots']['passageText']
         return response_builder.build_speechlet_response_no_card(
             passage_text, None, True)
