@@ -7,7 +7,7 @@ sudo: enabled
 dist: trusty
 
 install:
-  - "pip install --target=. -r src/requirements.txt"
+  - "pip install --target=src -r src/requirements.txt"
   
 script:
   - "ls"
