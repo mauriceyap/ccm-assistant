@@ -6,7 +6,8 @@ def handle_welcome():
 
     session_attributes = {}
     card_title = "Welcome"
-    speech_output = "Christ Church Mayfair Assistant at your service."
+    speech_output = "Christ Church Mayfair Assistant at your service. What " \
+                    "would you like? "
     should_end_session = False
     reprompt_text = None
     return response_builder.build_response(
