@@ -28,14 +28,6 @@ def handle_session_end_request():
 
 
 def handle_get_sermon_passage(intent, session):
-    return {
-        'directives': [
-            {
-                'type': 'Dialog.Delegate'
-            }
-        ],
-        'shouldEndSession': False
-    }
     if 'value' in intent['slots']['ReadPassage']:
         passage_text = intent['slots']['passageText']
         return response_builder.build_speechlet_response_no_card(
