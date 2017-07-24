@@ -33,7 +33,7 @@ def handle_get_sermon_passage(intent, session):
             or ('value' not in intent['slots']['Service']):
         return {
             'shouldEndSession': False,
-            'directives' : [{'type": "Dialog.Delegate'}]
+            'directives': [{'type': 'Dialog.Delegate'}]
         }
 
     session_attributes = {}
