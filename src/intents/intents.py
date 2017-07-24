@@ -60,16 +60,36 @@ def handle_get_sermon_passage(intent, session):
         speech_output += 'Would you like me to read this out?'
 
         new_slots = {
-            'book': book,
-            'start_chapter': start_chapter,
-            'start_verse': start_verse,
-            'end_chapter': end_chapter,
-            'end_verse': end_verse,
-            'passageText': passage_text
+            'book': {
+                'name': 'book',
+                'value': book,
+                'confirmationStatus': 'NONE'
+            },
+            'start_chapter': {
+                'name': 'start_chapter',
+                'value': start_chapter,
+                'confirmationStatus': 'NONE'},
+            'start_verse': {
+                'name': 'start_verse',
+                'value': start_verse,
+                'confirmationStatus': 'NONE'
+            },
+            'end_chapter': {
+                'name': 'end_chapter',
+                'value': end_chapter,
+                'confirmationStatus': 'NONE'
+            },
+            'end_verse': {
+                'name': 'end_verse',
+                'value': end_verse,
+                'confirmationStatus': 'NONE'
+            }
         }
 
-        updated_intent = {'name': 'GetSermonPassage', 'confirmationStatus':
-            'NONE', 'slots': new_slots}
+        updated_intent = {
+            'name': 'GetSermonPassage',
+            'confirmationStatus': 'NONE', 'slots': new_slots
+        }
 
         get_read_passage_directives = [{'type': 'Dialog.ElicitSlot',
                                         'slotToElicit': 'ReadPassage',
