@@ -85,10 +85,11 @@ def handle_get_sermon_passage(intent, session):
                 'confirmationStatus': 'NONE'
             }
         }
-
+        new_slots.update(intent['slots'])
         updated_intent = {
             'name': 'GetSermonPassage',
-            'confirmationStatus': 'NONE', 'slots': new_slots
+            'confirmationStatus': 'NONE',
+            'slots': new_slots
         }
 
         get_read_passage_directives = [{'type': 'Dialog.ElicitSlot',
