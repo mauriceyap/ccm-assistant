@@ -40,4 +40,6 @@ def get_bible_text(book, start_chapter, start_verse, end_chapter, end_verse,
 
 
 def remove_square_bracketed_verse_numbers(s):
-    return re.sub(r'( )*\[(.*?)\]( )*', '', s)
+    s = re.sub(r'( )*\[(.*?)\]( )*', '', s)
+    s = re.sub(r'\.\b', '. ', s)
+    return s
