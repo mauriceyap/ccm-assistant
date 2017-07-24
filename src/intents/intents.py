@@ -37,8 +37,7 @@ def handle_get_sermon_passage(intent, session):
         }
         return response_builder.build_response({}, speechlet_response)
 
-    if ('value' not in intent['slots']['ReadPassage']) \
-            or ('value' not in intent['slots']['Service']):
+    if ('value' not in intent['slots']['ReadPassage']):
         session_attributes = {}
         should_end_session = False
 
@@ -104,6 +103,7 @@ def handle_get_sermon_passage(intent, session):
 
         return response_builder.build_response(session_attributes,
                                                speechlet_response)
+
     book = intent['slots']['book']
     start_chapter = intent['slots']['start_chapter']
     start_verse = intent['slots']['start_verse']
