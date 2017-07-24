@@ -1,0 +1,289 @@
+2017-05-07:
+  morning:
+    book: Jonah
+    start:
+      chapter: 3
+      verse: 1
+    end:
+      chapter: 3
+      verse: 10
+  evening:
+    book: John
+    start:
+      chapter: 15
+      verse: 18
+    end:
+      chapter: 16
+      verse: 4
+2017-05-14:
+  morning:
+    book: Jonah
+    start:
+      chapter: 4
+      verse: 1
+    end:
+      chapter: 4
+      verse: 11
+  evening:
+    book: Amos
+    start:
+      chapter: 1
+      verse: 1
+    end:
+      chapter: 2
+      verse: 16
+2017-05-21:
+  morning:
+    book: 1 Timothy
+    start:
+      chapter: 1
+      verse: 15
+    end:
+      chapter: 1
+      verse: 17
+  evening:
+    book: Amos
+    start:
+      chapter: 3
+      verse: 1
+    end:
+      chapter: 4
+      verse: 13
+2017-05-28:
+  morning:
+    book: Hebrews
+    start:
+      chapter: 11
+      verse: 1
+    end:
+      chapter: 11
+      verse: 7
+  evening:
+    book: Amos
+    start:
+      chapter: 5
+      verse: 1
+    end:
+      chapter: 5
+      verse: 17
+2017-06-04:
+  morning:
+    book: Hebrews
+    start:
+      chapter: 11
+      verse: 8
+    end:
+      chapter: 11
+      verse: 22
+  evening:
+    book: Amos
+    start:
+      chapter: 5
+      verse: 18
+    end:
+      chapter: 6
+      verse: 14
+2017-06-11:
+  morning:
+    book: Hebrews
+    start:
+      chapter: 11
+      verse: 23
+    end:
+      chapter: 11
+      verse: 31
+  evening:
+    book: Amos
+    start:
+      chapter: 7
+      verse: 1
+    end:
+      chapter: 8
+      verse: 14
+2017-06-18:
+  morning:
+    book: Hebrews
+    start:
+      chapter: 11
+      verse: 32
+    end:
+      chapter: 12
+      verse: 3
+  evening:
+    book: Amos
+    start:
+      chapter: 9
+      verse: 1
+    end:
+      chapter: 9
+      verse: 15
+2017-06-25:
+  morning:
+    book: Mark
+    start:
+      chapter: 11
+      verse: 27
+    end:
+      chapter: 11
+      verse: 33
+  evening:
+    book: Mark
+    start:
+      chapter: 8
+      verse: 22
+    end:
+      chapter: 8
+      verse: 30
+2017-07-02:
+  morning:
+    book: Mark
+    start:
+      chapter: 12
+      verse: 1
+    end:
+      chapter: 12
+      verse: 12
+  evening:
+    book: Mark
+    start:
+      chapter: 8
+      verse: 31
+    end:
+      chapter: 9
+      verse: 1
+2017-07-09:
+  morning:
+    book: Mark
+    start:
+      chapter: 12
+      verse: 13
+    end:
+      chapter: 12
+      verse: 17
+  evening:
+    book: Mark
+    start:
+      chapter: 9
+      verse: 2
+    end:
+      chapter: 9
+      verse: 13
+2017-07-16:
+  morning:
+    book: Mark
+    start:
+      chapter: 12
+      verse: 18
+    end:
+      chapter: 12
+      verse: 27
+  evening:
+    book: Mark
+    start:
+      chapter: 9
+      verse: 14
+    end:
+      chapter: 9
+      verse: 29
+2017-07-23:
+  morning:
+    book: Mark
+    start:
+      chapter: 12
+      verse: 28
+    end:
+      chapter: 12
+      verse: 34
+  evening:
+    book: Mark
+    start:
+      chapter: 9
+      verse: 30
+    end:
+      chapter: 9
+      verse: 41
+2017-07-30:
+  morning:
+    book: Mark
+    start:
+      chapter: 12
+      verse: 35
+    end:
+      chapter: 12
+      verse: 44
+  evening:
+    book: Mark
+    start:
+      chapter: 9
+      verse: 42
+    end:
+      chapter: 9
+      verse: 50
+2017-08-06:
+  morning:
+    book: Titus
+    start:
+      chapter: 1
+      verse: 1
+    end:
+      chapter: 1
+      verse: 16
+  evening:
+    book: Mark
+    start:
+      chapter: 10
+      verse: 1
+    end:
+      chapter: 10
+      verse: 12
+2017-08-13:
+  morning:
+    book: Titus
+    start:
+      chapter: 2
+      verse: 1
+    end:
+      chapter: 2
+      verse: 10
+  evening:
+    book: Mark
+    start:
+      chapter: 10
+      verse: 13
+    end:
+      chapter: 10
+      verse: 31
+2017-08-20:
+  morning:
+    book: Titus
+    start:
+      chapter: 2
+      verse: 11
+    end:
+      chapter: 2
+      verse: 15
+  evening:
+    book: Mark
+    start:
+      chapter: 10
+      verse: 32
+    end:
+      chapter: 10
+      verse: 45
+2017-08-27:
+  morning:
+    book: Titus
+    start:
+      chapter: 3
+      verse: 1
+    end:
+      chapter: 3
+      verse: 15
+  evening:
+    book: Mark
+    start:
+      chapter: 10
+      verse: 46
+    end:
+      chapter: 10
+      verse: 52
