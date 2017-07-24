@@ -31,10 +31,11 @@ def handle_session_end_request():
 def handle_get_sermon_passage(intent, session):
     if ('value' not in intent['slots']['Date']) \
             or ('value' not in intent['slots']['Service']):
-        return {
+        speechlet_response = {
             'shouldEndSession': False,
             'directives': [{'type': 'Dialog.Delegate'}]
         }
+        return response_builder.build_response({}, speechlet_response)
 
     session_attributes = {}
     should_end_session = True
