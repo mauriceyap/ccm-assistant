@@ -72,6 +72,7 @@ def handle_get_sermon_passage(intent, session):
         return response_builder.build_response(session_attributes,
                                                speechlet_response)
 
+    passage_text = bible.remove_square_bracketed_verse_numbers(passage_text)
     speechlet_response = response_builder.build_speechlet_response_no_card(
         output=passage_text, reprompt_text=None,
         should_end_session=True)
