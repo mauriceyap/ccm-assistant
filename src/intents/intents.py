@@ -55,14 +55,18 @@ def handle_get_sermon_passage(intent, session):
         start_verse + ' to  chapter ' + end_chapter + \
         ' verse ' + end_verse + '. '
     speech_output += 'I\'ve sent this bible passage to your Alexa app. '
+    speech_output += 'Would you like me to read this out?'
+
+    get_read_passage_directives = [{'type': 'Dialog.ElicitSlot',
+                                    'slotToElicit': 'ReadPassage'}]
 
     speechlet_response = response_builder.build_speechlet_response(
         card_title=card_title, card_content=passage_text,
         output=speech_output, reprompt_text=None,
-        should_end_session=should_end_session)
+        should_end_session=should_end_session,
+        directives=get_read_passage_directives)
 
-    speechlet_response['type'] = 'Dialog.ElicitSlot'
-    speechlet_response['slotToElicit'] = 'ReadPassage'
+    '''Can't remember why this is needed
     new_slots = {
         'book': book,
         'start_chapter': start_chapter,
@@ -72,6 +76,7 @@ def handle_get_sermon_passage(intent, session):
         'passageText': passage_text
     }
     speechlet_response['slots'] = new_slots
+    '''
 
     return response_builder.build_response(session_attributes,
                                            speechlet_response)

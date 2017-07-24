@@ -1,6 +1,6 @@
 def build_speechlet_response(card_title, card_content, output, reprompt_text,
-                             should_end_session):
-    return {
+                             should_end_session, directives=None):
+    speechlet_response = {
         'outputSpeech': {
             'type': 'PlainText',
             'text': output
@@ -18,6 +18,8 @@ def build_speechlet_response(card_title, card_content, output, reprompt_text,
         },
         'shouldEndSession': should_end_session
     }
+    if directives: speechlet_response['directives'] = directives
+    return speechlet_response
 
 
 def build_speechlet_response_no_card(output, reprompt_text, should_end_session):
