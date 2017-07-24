@@ -45,6 +45,8 @@ def handle_get_sermon_passage(intent, session):
     end_chapter = '9'
     end_verse = '41'  # TODO: change all this using fetched data
 
+    # TODO: get service value from resolutions
+
     passage_text = bible.get_bible_text(book, start_chapter, start_verse,
                                         end_chapter, end_verse)
 
@@ -72,10 +74,19 @@ def handle_get_sermon_passage(intent, session):
         return response_builder.build_response(session_attributes,
                                                speechlet_response)
 
-    passage_text = bible.remove_square_bracketed_verse_numbers(passage_text)
+    to_read_passage = intent['slots']['ReadPassage']['resolutions'][
+        'resolutionsPerAuthority'][0]['values'][0]['value']['id'] == 'YES'
+
+    if to_read_passage:
+        output = bible.remove_square_bracketed_verse_numbers(passage_text)
+
+    else:
+        output = 'Okay '
+
     speechlet_response = response_builder.build_speechlet_response_no_card(
-        output=passage_text, reprompt_text=None,
+        output=output, reprompt_text=None,
         should_end_session=True)
+
     return response_builder.build_response(session_attributes,
                                            speechlet_response)
 
