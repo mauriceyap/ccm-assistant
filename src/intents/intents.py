@@ -37,20 +37,22 @@ def handle_get_sermon_passage(intent, session):
         }
         return response_builder.build_response({}, speechlet_response)
 
-    if 'value' not in intent['slots']['ReadPassage']:
-        session_attributes = {}
-        should_end_session = False
+    session_attributes = {}
 
-        book = 'Mark'
-        start_chapter = '9'
-        start_verse = '30'
-        end_chapter = '9'
-        end_verse = '41'  # TODO: change all this using fetched data
+    book = 'Mark'
+    start_chapter = '9'
+    start_verse = '30'
+    end_chapter = '9'
+    end_verse = '41'  # TODO: change all this using fetched data
+
+    passage_text = bible.get_bible_text(book, start_chapter, start_verse,
+                                        end_chapter, end_verse)
+
+    if 'value' not in intent['slots']['ReadPassage']:
+        should_end_session = False
 
         card_title = book + ' ' + start_chapter + ':' + start_verse + '-' + \
             end_chapter + ':' + end_verse
-        passage_text = bible.get_bible_text(book, start_chapter, start_verse,
-                                            end_chapter, end_verse)
 
         speech_output = book + ' chapter ' + start_chapter + ' verse ' + \
             start_verse + ' to  chapter ' + end_chapter + \
@@ -58,64 +60,23 @@ def handle_get_sermon_passage(intent, session):
         speech_output += 'I\'ve sent this bible passage to your Alexa app. '
         speech_output += 'Would you like me to read this out?'
 
-        new_slots = {
-            'book': {
-                'name': 'book',
-                'value': book,
-                'confirmationStatus': 'NONE'
-            },
-            'start_chapter': {
-                'name': 'start_chapter',
-                'value': start_chapter,
-                'confirmationStatus': 'NONE'},
-            'start_verse': {
-                'name': 'start_verse',
-                'value': start_verse,
-                'confirmationStatus': 'NONE'
-            },
-            'end_chapter': {
-                'name': 'end_chapter',
-                'value': end_chapter,
-                'confirmationStatus': 'NONE'
-            },
-            'end_verse': {
-                'name': 'end_verse',
-                'value': end_verse,
-                'confirmationStatus': 'NONE'
-            }
-        }
-        new_slots.update(intent['slots'])
-        updated_intent = {
-            'name': 'GetSermonPassage',
-            'confirmationStatus': 'NONE',
-            'slots': new_slots
-        }
-
         get_read_passage_directives = [{'type': 'Dialog.ElicitSlot',
-                                        'slotToElicit': 'ReadPassage',
-                                        'updatedIntent': updated_intent}]
+                                        'slotToElicit': 'ReadPassage'}]
 
         speechlet_response = response_builder.build_speechlet_response(
             card_title=card_title, card_content=passage_text,
             output=speech_output, reprompt_text=None,
             should_end_session=should_end_session,
-            # directives=get_read_passage_directives)
-            directives=None)
+            directives=get_read_passage_directives)
 
         return response_builder.build_response(session_attributes,
                                                speechlet_response)
 
-    book = intent['slots']['book']
-    start_chapter = intent['slots']['start_chapter']
-    start_verse = intent['slots']['start_verse']
-    end_chapter = intent['slots']['end_chapter']
-    end_verse = intent['slots']['end_verse']
-    passage_text = bible.get_bible_text(book, start_chapter, start_verse,
-                                        end_chapter, end_verse)
     speechlet_response = response_builder.build_speechlet_response_no_card(
         output=passage_text, reprompt_text=None,
         should_end_session=True)
-    return response_builder.build_response({}, speechlet_response)
+    return response_builder.build_response(session_attributes,
+                                           speechlet_response)
 
 
 def handle_get_next_event(intent, session):
