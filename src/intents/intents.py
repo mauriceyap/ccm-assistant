@@ -1,5 +1,6 @@
 import utils.response_builder as response_builder
 import resources.bible as bible
+import yaml
 
 
 def handle_welcome():
@@ -39,14 +40,16 @@ def handle_get_sermon_passage(intent, session):
 
     session_attributes = {}
 
-    book = 'Mark'
-    start_chapter = '9'
-    start_verse = '30'
-    end_chapter = '9'
-    end_verse = '41'  # TODO: change all this using fetched data
-
-    # TODO: get service value from resolutions
-
+    date = intent['slots']['Date']
+    service = intent['slots']['Service']['resolutions'][
+        'resolutionsPerAuthority'][0]['values'][0]['value']['id'].lower()
+    with open('data/passages.yaml', 'r') as data:
+        reading_data = yaml.load(data)[date][service]
+    book = reading_data['book']
+    start_chapter = reading_data['start']['chapter']
+    start_verse = reading_data['start']['verse']
+    end_chapter = reading_data['end']['chapter']
+    end_verse = reading_data['end']['verse']
     passage_text = bible.get_bible_text(book, start_chapter, start_verse,
                                         end_chapter, end_verse)
 
