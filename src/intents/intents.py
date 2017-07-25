@@ -42,7 +42,7 @@ def handle_get_sermon_passage(intent, session):
 
     session_attributes = {}
 
-    date = date_utils.sunday_from(intent['slots']['Date'])
+    date = date_utils.sunday_from(intent['slots']['Date']['value'])
     service = intent['slots']['Service']['resolutions'][
         'resolutionsPerAuthority'][0]['values'][0]['value']['id'].lower()
     data_path = os.environ['LAMBDA_TASK_ROOT'] + '/resources/data/passages.yaml'
