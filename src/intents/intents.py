@@ -2,6 +2,7 @@ import utils.response_builder as response_builder
 import resources.bible as bible
 import yaml
 import utils.date_utils as date_utils
+import os
 
 
 def handle_welcome():
@@ -44,8 +45,10 @@ def handle_get_sermon_passage(intent, session):
     date = date_utils.sunday_from(intent['slots']['Date'])
     service = intent['slots']['Service']['resolutions'][
         'resolutionsPerAuthority'][0]['values'][0]['value']['id'].lower()
-    with open('../resources/data/passages.yaml', 'r') as data:
-        reading_data = yaml.load(data)[date][service]
+    data_path = os.environ['LAMBDA_TASK_ROOT'] + '/resources/data/passages.yaml'
+    print("Looking for passages.yaml at " + data_path)
+    data = open(data_path).read()
+    reading_data = yaml.load(data)[date][service]
     book = reading_data['book']
     start_chapter = reading_data['start']['chapter']
     start_verse = reading_data['start']['verse']
