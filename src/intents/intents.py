@@ -48,6 +48,8 @@ def handle_get_sermon_passage(intent, session):
     data_path = os.environ['LAMBDA_TASK_ROOT'] + '/resources/data/passages.yaml'
     print("Looking for passages.yaml at " + data_path)
     data = open(data_path).read()
+    reading_data = yaml.load(data)
+    print(reading_data)
     reading_data = yaml.load(data)[date][service]
     book = reading_data['book']
     start_chapter = reading_data['start']['chapter']
