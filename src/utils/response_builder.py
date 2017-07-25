@@ -22,8 +22,9 @@ def build_speechlet_response(card_title, card_content, output, reprompt_text,
     return speechlet_response
 
 # TODO remove this function by combining it with the one above
-def build_speechlet_response_no_card(output, reprompt_text, should_end_session):
-    return {
+def build_speechlet_response_no_card(output, reprompt_text,
+                                     should_end_session, directives=None):
+    speechlet_response = {
         'outputSpeech': {
             'type': 'PlainText',
             'text': output
@@ -36,6 +37,8 @@ def build_speechlet_response_no_card(output, reprompt_text, should_end_session):
         },
         'shouldEndSession': should_end_session
     }
+    if directives: speechlet_response['directives'] = directives
+    return speechlet_response
 
 
 def build_response(session_attributes, speechlet_response):

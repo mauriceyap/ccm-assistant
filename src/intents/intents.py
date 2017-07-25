@@ -56,9 +56,13 @@ def handle_get_sermon_passage(intent, session):
     passage_text = bible.get_bible_text(book, start_chapter, start_verse,
                                         end_chapter, end_verse)
 
+    get_read_passage_directives = [{'type': 'Dialog.ElicitSlot',
+                                    'slotToElicit': 'ReadPassage'}]
+
     if 'value' not in intent['slots']['ReadPassage']:
         should_end_session = False
 
+        # TODO: Add another case for same chapter
         card_title = book + ' ' + start_chapter + ':' + start_verse + '-' + \
             end_chapter + ':' + end_verse
 
@@ -67,9 +71,6 @@ def handle_get_sermon_passage(intent, session):
             ' verse ' + end_verse + '. '
         speech_output += 'I\'ve sent this bible passage to your Alexa app. '
         speech_output += 'Would you like me to read this out?'
-
-        get_read_passage_directives = [{'type': 'Dialog.ElicitSlot',
-                                        'slotToElicit': 'ReadPassage'}]
 
         speechlet_response = response_builder.build_speechlet_response(
             card_title=card_title, card_content=passage_text,
@@ -80,8 +81,19 @@ def handle_get_sermon_passage(intent, session):
         return response_builder.build_response(session_attributes,
                                                speechlet_response)
 
-    to_read_passage = intent['slots']['ReadPassage']['resolutions'][
-        'resolutionsPerAuthority'][0]['values'][0]['value']['id'] == 'YES'
+    try:
+        to_read_passage = intent['slots']['ReadPassage']['resolutions'][
+            'resolutionsPerAuthority'][0]['values'][0]['value']['id'] == 'YES'
+    except KeyError:
+        speech_output = 'Sorry, I didn\'t get that. Please could you repeat ' \
+                      'that? '
+        speechlet_response = response_builder.build_speechlet_response_no_card(
+            output=speech_output, reprompt_text=None,
+            should_end_session=False,
+            directives=get_read_passage_directives)
+        return response_builder.build_response(session_attributes,
+                                               speechlet_response)
+
 
     if to_read_passage:
         output = bible.remove_square_bracketed_verse_numbers(passage_text)
