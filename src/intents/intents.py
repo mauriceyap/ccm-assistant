@@ -25,10 +25,13 @@ def handle_session_end_request():
     card_title = 'Goodbye'
     speech_output = 'Thanks for using Christ Church Mayfair Assistant. '
     should_end_session = True
-    return response_builder.build_response({}, response_builder.build_speechlet_response(
+    return response_builder.build_response(
+        {}, response_builder.build_speechlet_response(
         card_title=card_title, card_content=speech_output,
         output=speech_output, reprompt_text=None,
-        should_end_session=should_end_session))
+        should_end_session=should_end_session
+        )
+    )
 
 
 def handle_get_sermon_passage(intent, session):
@@ -42,7 +45,19 @@ def handle_get_sermon_passage(intent, session):
 
     session_attributes = {}
 
-    date = date_utils.sunday_from(intent['slots']['Date']['value'])
+    try:
+        date = date_utils.sunday_from(intent['slots']['Date']['value'])
+    except RuntimeError as e:
+        speech_output = e.value()
+        get_date_directives = [{'type': 'Dialog.ElicitSlot',
+                                'slotToElicit': 'ReadPassage'}]
+        speechlet_response = response_builder.build_speechlet_response_no_card(
+            output=speech_output, reprompt_text=None,
+            should_end_session=False,
+            directives=get_date_directives)
+        return response_builder.build_response(session_attributes,
+                                               speechlet_response)
+
     service = intent['slots']['Service']['resolutions'][
         'resolutionsPerAuthority'][0]['values'][0]['value']['id'].lower()
     data_path = os.environ['LAMBDA_TASK_ROOT'] + '/resources/data/passages.yaml'
