@@ -58,8 +58,20 @@ def handle_get_sermon_passage(intent, session):
         return response_builder.build_response(session_attributes,
                                                speechlet_response)
 
-    service = intent['slots']['Service']['resolutions'][
-        'resolutionsPerAuthority'][0]['values'][0]['value']['id'].lower()
+    try:
+        service = intent['slots']['Service']['resolutions'][
+            'resolutionsPerAuthority'][0]['values'][0]['value']['id'].lower()
+    except KeyError:
+        speech_output = 'Sorry, I didn\'t get which sevice you wanted. ' \
+                        'Please could you repeat that? '
+        speechlet_response = response_builder.build_speechlet_response_no_card(
+            output=speech_output, reprompt_text=None,
+            should_end_session=False,
+            directives=[{'type': 'Dialog.ElicitSlot',
+                         'slotToElicit': 'ReadPassage'}])
+        return response_builder.build_response(session_attributes,
+                                               speechlet_response)
+
     data_path = os.environ['LAMBDA_TASK_ROOT'] + '/resources/data/passages.yaml'
     data = open(data_path).read()
     reading_data = yaml.load(data)[date][service]
@@ -117,7 +129,6 @@ def handle_get_sermon_passage(intent, session):
             directives=get_read_passage_directives)
         return response_builder.build_response(session_attributes,
                                                speechlet_response)
-
 
     if to_read_passage:
         output = bible.remove_square_bracketed_verse_numbers(passage_text)
