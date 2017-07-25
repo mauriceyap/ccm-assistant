@@ -1,7 +1,7 @@
 import utils.response_builder as response_builder
 import resources.bible as bible
 import yaml
-import utils.date as date
+import utils.date_utils as date_utils
 
 
 def handle_welcome():
@@ -41,7 +41,7 @@ def handle_get_sermon_passage(intent, session):
 
     session_attributes = {}
 
-    date = date.sunday_from(intent['slots']['Date'])
+    date = date_utils.sunday_from(intent['slots']['Date'])
     service = intent['slots']['Service']['resolutions'][
         'resolutionsPerAuthority'][0]['values'][0]['value']['id'].lower()
     with open('../resources/data/passages.yaml', 'r') as data:
