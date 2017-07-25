@@ -77,13 +77,22 @@ def handle_get_sermon_passage(intent, session):
     if 'value' not in intent['slots']['ReadPassage']:
         should_end_session = False
 
-        # TODO: Add another case for same chapter
-        card_title = book + ' ' + start_chapter + ':' + start_verse + '-' + \
+        if 4 <= date.day <= 20 or 24 <= date.day <= 30:
+            suffix = "th"
+        else:
+            suffix = ["st", "nd", "rd"][date.day % 10 - 1]
+        card_title = '%s%s %s - ' % \
+                     (str(date.day), suffix, date.strftime('%B %Y'))
+        card_title += book + ' ' + start_chapter + ':' + start_verse + '-' + \
             end_chapter + ':' + end_verse
 
-        speech_output = book + ' chapter ' + start_chapter + ' verse ' + \
-            start_verse + ' to  chapter ' + end_chapter + \
-            ' verse ' + end_verse + '. '
+        speech_output = book + ' chapter ' + start_chapter
+        if start_chapter == end_chapter:
+            speech_output += ' verses ' + start_verse + ' to ' + \
+                             end_verse + '. '
+        else:
+            speech_output += ' verse ' + start_verse + ' to  chapter ' + \
+                             end_chapter + ' verse ' + end_verse + '. '
         speech_output += 'I\'ve sent this bible passage to your Alexa app. '
         speech_output += 'Would you like me to read this out?'
 
