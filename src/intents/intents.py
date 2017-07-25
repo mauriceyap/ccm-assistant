@@ -88,13 +88,14 @@ def handle_get_sermon_passage(intent, session):
 
     if 'value' not in intent['slots']['ReadPassage']:
         should_end_session = False
-
         if 4 <= date.day <= 20 or 24 <= date.day <= 30:
             suffix = "th"
         else:
             suffix = ["st", "nd", "rd"][date.day % 10 - 1]
-        card_title = '%s%s %s - ' % \
-                     (str(date.day), suffix, date.strftime('%B %Y'))
+        service_text = 'AM' if service == 'morning' else 'PM'
+        card_title = '%s%s %s %s - ' % \
+                     (str(date.day), suffix, date.strftime('%B %Y'),
+                      service_text)
         card_title += book + ' ' + start_chapter + ':' + start_verse + '-' + \
             end_chapter + ':' + end_verse
 
