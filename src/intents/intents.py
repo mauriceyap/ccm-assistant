@@ -50,6 +50,8 @@ def handle_get_sermon_passage(intent, session):
     data = open(data_path).read()
     reading_data = yaml.load(data)
     print(reading_data)
+    print(date)
+    print(service)
     reading_data = yaml.load(data)[date][service]
     book = reading_data['book']
     start_chapter = reading_data['start']['chapter']
