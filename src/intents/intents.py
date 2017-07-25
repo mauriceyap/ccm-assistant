@@ -46,21 +46,15 @@ def handle_get_sermon_passage(intent, session):
     service = intent['slots']['Service']['resolutions'][
         'resolutionsPerAuthority'][0]['values'][0]['value']['id'].lower()
     data_path = os.environ['LAMBDA_TASK_ROOT'] + '/resources/data/passages.yaml'
-    print("Looking for passages.yaml at " + data_path)
     data = open(data_path).read()
-    reading_data = yaml.load(data)
-    print(reading_data)
-    print(date)
-    print(service)
     reading_data = yaml.load(data)[date][service]
     book = reading_data['book']
-    start_chapter = reading_data['start']['chapter']
-    start_verse = reading_data['start']['verse']
-    end_chapter = reading_data['end']['chapter']
-    end_verse = reading_data['end']['verse']
-    passage_text = bible.get_bible_text(book, str(start_chapter),
-                                        str(start_verse),
-                                        str(end_chapter), str(end_verse))
+    start_chapter = str(reading_data['start']['chapter'])
+    start_verse = str(reading_data['start']['verse'])
+    end_chapter = str(reading_data['end']['chapter'])
+    end_verse = str(reading_data['end']['verse'])
+    passage_text = bible.get_bible_text(book, start_chapter, start_verse,
+                                        end_chapter, end_verse)
 
     if 'value' not in intent['slots']['ReadPassage']:
         should_end_session = False
