@@ -158,8 +158,16 @@ def handle_get_next_event(intent, session):
                         "You can say, my favorite color is red."
         should_end_session = False
 
-    # Setting reprompt_text to None signifies that we do not want to reprompt
-    # the user. If the user does not respond or says something that is not
-    # understood, the session will end.
-    return response_builder.build_response(session_attributes, response_builder.build_speechlet_response(
-        intent['name'], None, speech_output, reprompt_text, should_end_session))
+def handle_play_sermon(intent, session):
+    # TODO: implement this method
+    session_attributes = {}
+    reprompt_text = None
+    speech_output = 'You asked me to play you a sermon, but I can\'t do it ' \
+                    'because I\'ve not been programmed to yet. Sorry!'
+    should_end_session = False
+    return response_builder.build_response(
+        session_attributes, response_builder.build_speechlet_response(
+            intent['name'], None, speech_output, reprompt_text,
+            should_end_session
+        )
+    )

@@ -23,8 +23,7 @@ def on_intent(intent_request, session):
     if intent_name == "GetSermonPassage":
         return intents.handle_get_sermon_passage(intent, session)
     elif intent_name == "PlaySermon":
-        # TODO: create handler for this intent
-        return intents.handle_get_next_event(intent, session)
+        return intents.handle_play_sermon(intent, session)
     elif intent_name == "GetNextEvent":
         return intents.handle_get_next_event(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
