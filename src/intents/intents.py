@@ -144,19 +144,18 @@ def handle_get_sermon_passage(intent, session):
 
 def handle_get_next_event(intent, session):
     # TODO: implement this method
-
     session_attributes = {}
     reprompt_text = None
+    speech_output = 'You asked for the next event, but I can\'t give it to ' \
+                    'you because I\'ve not been programmed to yet. Sorry!'
+    should_end_session = False
+    return response_builder.build_response(
+        session_attributes, response_builder.build_speechlet_response(
+            intent['name'], None, speech_output, reprompt_text,
+            should_end_session
+        )
+    )
 
-    if session.get('attributes', {}) and "favoriteColor" in session.get('attributes', {}):
-        favorite_color = session['attributes']['favoriteColor']
-        speech_output = "Your favorite color is " + favorite_color + \
-                        ". Goodbye."
-        should_end_session = True
-    else:
-        speech_output = "I'm not sure what your favorite color is. " \
-                        "You can say, my favorite color is red."
-        should_end_session = False
 
 def handle_play_sermon(intent, session):
     # TODO: implement this method
