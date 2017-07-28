@@ -151,8 +151,8 @@ def handle_get_next_event(intent, session):
     should_end_session = False
     return response_builder.build_response(
         session_attributes, response_builder.build_speechlet_response(
-            intent['name'], None, speech_output, reprompt_text,
-            should_end_session
+            output=speech_output, reprompt_text=reprompt_text,
+            should_end_session=should_end_session
         )
     )
 
