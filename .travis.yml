@@ -26,6 +26,7 @@ deploy:
   role: "arn:aws:iam::882482748234:role/lambda_basic_execution"
   runtime: "python2.7"
   handler_name: "alexa-main.lambda_handler"
+  zip: "deploy-zip/alexa.zip"
   access_key_id:
     secure: "BJaCjyBuaI90N5kjD+k20TMWhleRo01EHjhQ24bZMEsbJ7G1Ua+RJ/pzb3cf76VZeKB44hyHvbV8GQIcvh2sgc/7LYxDnxlrxxAYpt96g0ApB5JGVEwcEmq3pIfDXs1n4MIxStgf9VB2ylT2Izkm7tE4AVbWdaeQKYvqR49ftygSXx2WYgWiGuBhr1ecH10mhqDi4NTlj3VyODYRQkhpT6ybXmhtPdyZ0BaTq8wSGwFlOJ6obGl+Noa47vlVbps/q4+ye9NKCEDbKMPbpIQv4k8POa6W99KZ+MX0qx6H497LDxj6/rYIzoswXBVJ2C5qjhf/YdIDHL8J7Qbrkm1mLksKn5WRPw4aZJ60RH1PjHRsp8DBweSgAKCn/l08DJoruZ6ieCp+96wniMq6SrqdTWaWE6dEix1zYw7n4Rg8pUhzcqU+ysQnzB+X0yukVHIm+rzuWHglGdzLhF59yjDx5+PlonYuTbJQTXxoK5F8utH8IUJO0+t+OxbdlJlBaZCF4JHmQgWwjgSX0mw6HWbbvvGmTgl3Oe9iUPBZTYLdUYjmVtTal7kXLZ2mb6TGnqzP6hQyZVaijy1/u2vjndhSgiLFsIWKE0Ayq0G9XMCS6UGwxUyhBSThwkHSL1zD0ggV+lI/W+aFP5M/ZiLaGmxpEKr7LDn3kcb4TgGWbPfufmg="
   secret_access_key:
