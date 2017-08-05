@@ -107,17 +107,14 @@ def handle_get_sermon_passage(intent, session):
             end_verse
         )
 
-        speech_output = "{} chapter {}".format(
-            book,
-            start_chapter
-        )
+        speech_output = "It's {} chapter {} ".format(book, start_chapter)
         if start_chapter == end_chapter:
-            speech_output += " verses {} to {}. ".format(
+            speech_output += "verses {} to {}. ".format(
                 start_verse,
                 end_verse
             )
         else:
-            speech_output += " verse {} to chapter {} verse {}. ".format(
+            speech_output += "verse {} to chapter {} verse {}. ".format(
                 start_verse,
                 end_chapter,
                 end_verse

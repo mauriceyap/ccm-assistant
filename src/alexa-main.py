@@ -10,6 +10,7 @@ def lambda_handler(event, context):
     if event['session']['application']['applicationId'] != APPLICATION_ID:
         raise ValueError("Invalid Application ID")
 
+    # Log input event to CloudWatch
     print(json.dumps(event))
 
     if event['session']['new']:
