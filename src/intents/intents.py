@@ -62,8 +62,8 @@ def handle_get_sermon_passage(intent, session):
         service = intent['slots']['Service']['resolutions'][
             'resolutionsPerAuthority'][0]['values'][0]['value']['id'].lower()
     except KeyError:
-        speech_output = 'Sorry, I didn\'t get which sevice you wanted. ' \
-                        'Please could you repeat that? '
+        speech_output = "Sorry, I didn't get which sevice you wanted. " \
+                        "Please could you repeat that? "
         speechlet_response = response_builder.build_speechlet_response_no_card(
             output=speech_output, reprompt_text=None,
             should_end_session=False,
@@ -93,21 +93,37 @@ def handle_get_sermon_passage(intent, session):
         else:
             suffix = ["st", "nd", "rd"][date.day % 10 - 1]
         service_text = 'AM' if service == 'morning' else 'PM'
-        card_title = '%s%s %s %s - ' % \
-                     (str(date.day), suffix, date.strftime('%B %Y'),
-                      service_text)
-        card_title += book + ' ' + start_chapter + ':' + start_verse + '-' + \
-            end_chapter + ':' + end_verse
+        card_title = "{}{} {} {} - ".format(
+            str(date.day),
+            suffix,
+            date.strftime('%B %Y'),
+            service_text
+        )
+        card_title += "{} {}:{}-{}:{}".format(
+            book,
+            start_chapter,
+            start_verse,
+            end_chapter,
+            end_verse
+        )
 
-        speech_output = book + ' chapter ' + start_chapter
+        speech_output = "{} chapter {}".format(
+            book,
+            start_chapter
+        )
         if start_chapter == end_chapter:
-            speech_output += ' verses ' + start_verse + ' to ' + \
-                             end_verse + '. '
+            speech_output += " verses {} to {}. ".format(
+                start_verse,
+                end_verse
+            )
         else:
-            speech_output += ' verse ' + start_verse + ' to  chapter ' + \
-                             end_chapter + ' verse ' + end_verse + '. '
-        speech_output += 'I\'ve sent this bible passage to your Alexa app. '
-        speech_output += 'Would you like me to read this out?'
+            speech_output += " verse {} to chapter {} verse {}. ".format(
+                start_verse,
+                end_chapter,
+                end_verse
+            )
+        speech_output += "I've sent this bible passage to your Alexa app. "
+        speech_output += "Would you like me to read this out? "
 
         speechlet_response = response_builder.build_speechlet_response(
             card_title=card_title, card_content=passage_text,
@@ -144,30 +160,30 @@ def handle_get_sermon_passage(intent, session):
 
 def handle_get_next_event(intent, session):
     # TODO: implement this method
-
     session_attributes = {}
     reprompt_text = None
-
-    if session.get('attributes', {}) and "favoriteColor" in session.get('attributes', {}):
-        favorite_color = session['attributes']['favoriteColor']
-        speech_output = "Your favorite color is " + favorite_color + \
-                        ". Goodbye."
-        should_end_session = True
-    else:
-        speech_output = "I'm not sure what your favorite color is. " \
-                        "You can say, my favorite color is red."
-        should_end_session = False
+    speech_output = "You asked me for the next CCM event, but I can't do it " \
+                    "because I've not been programmed to yet. Sorry! "
+    should_end_session = False
+    return response_builder.build_response(
+        session_attributes, response_builder.build_speechlet_response(
+            output=speech_output, reprompt_text=reprompt_text,
+            should_end_session=should_end_session, card_content=None,
+            card_title=None
+        )
+    )
 
 def handle_play_sermon(intent, session):
     # TODO: implement this method
     session_attributes = {}
     reprompt_text = None
-    speech_output = 'You asked me to play you a sermon, but I can\'t do it ' \
-                    'because I\'ve not been programmed to yet. Sorry!'
+    speech_output = "You asked me to play you a sermon, but I can't do it " \
+                    "because I've not been programmed to yet. Sorry! "
     should_end_session = False
     return response_builder.build_response(
         session_attributes, response_builder.build_speechlet_response(
             output=speech_output, reprompt_text=reprompt_text,
-            should_end_session=should_end_session
+            should_end_session=should_end_session, card_content=None,
+            card_title=None
         )
     )
