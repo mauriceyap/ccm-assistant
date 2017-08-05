@@ -50,7 +50,7 @@ def handle_get_sermon_passage(intent, session):
         speech_output = e.value()
         get_date_directives = [{"type": "Dialog.ElicitSlot",
                                 "slotToElicit": "ReadPassage"}]
-        speechlet_response = response_builder.build_speechlet_response_no_card(
+        speechlet_response = response_builder.build_speechlet_response(
             output=speech_output, reprompt_text=None,
             should_end_session=False,
             directives=get_date_directives)
@@ -63,7 +63,7 @@ def handle_get_sermon_passage(intent, session):
     except KeyError:
         speech_output = "Sorry, I didn't get which sevice you wanted. " \
                         "Please could you repeat that? "
-        speechlet_response = response_builder.build_speechlet_response_no_card(
+        speechlet_response = response_builder.build_speechlet_response(
             output=speech_output, reprompt_text=None,
             should_end_session=False,
             directives=[{"type": "Dialog.ElicitSlot",
@@ -138,7 +138,7 @@ def handle_get_sermon_passage(intent, session):
     except KeyError:
         speech_output = "Sorry, I didn't get that. Please could you repeat " \
                         "that? "
-        speechlet_response = response_builder.build_speechlet_response_no_card(
+        speechlet_response = response_builder.build_speechlet_response(
             output=speech_output, reprompt_text=None,
             should_end_session=False,
             directives=get_read_passage_directives)
@@ -148,7 +148,7 @@ def handle_get_sermon_passage(intent, session):
     output = bible.remove_square_bracketed_verse_numbers(passage_text) \
         if to_read_passage else "Okay "
 
-    speechlet_response = response_builder.build_speechlet_response_no_card(
+    speechlet_response = response_builder.build_speechlet_response(
         output=output, reprompt_text=None,
         should_end_session=True)
 

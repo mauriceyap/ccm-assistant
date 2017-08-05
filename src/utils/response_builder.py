@@ -1,46 +1,28 @@
-def build_speechlet_response(card_title, card_content, output, reprompt_text,
-                             should_end_session, directives=None):
+def build_speechlet_response(output, reprompt_text, should_end_session,
+                             directives=None, card_title=None,
+                             card_content=None):
     speechlet_response = {
         "outputSpeech": {
             "type": "PlainText",
             "text": output
         },
-        "card": {
+        "reprompt": {
+            "outputSpeech": {
+                "type": "PlainText",
+                "text": reprompt_text
+            }
+        },
+        "shouldEndSession": should_end_session
+    }
+    if directives:
+        speechlet_response["directives"] = directives
+    if card_title and card_content:
+        card = {
             "type": "Simple",
             "title": card_title,
             "content": card_content
-        },
-        "reprompt": {
-            "outputSpeech": {
-                "type": "PlainText",
-                "text": reprompt_text
-            }
-        },
-        "shouldEndSession": should_end_session
-    }
-    if directives:
-        speechlet_response["directives"] = directives
-    return speechlet_response
-
-
-# TODO remove this function by combining it with the one above
-def build_speechlet_response_no_card(output, reprompt_text,
-                                     should_end_session, directives=None):
-    speechlet_response = {
-        "outputSpeech": {
-            "type": "PlainText",
-            "text": output
-        },
-        "reprompt": {
-            "outputSpeech": {
-                "type": "PlainText",
-                "text": reprompt_text
-            }
-        },
-        "shouldEndSession": should_end_session
-    }
-    if directives:
-        speechlet_response["directives"] = directives
+        }
+        speechlet_response["card"] = card
     return speechlet_response
 
 
