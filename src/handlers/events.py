@@ -2,20 +2,15 @@ import intents.intents as intents
 
 
 def on_session_started(session_started_request, session):
-    """ Called when the session starts """
     pass
 
 
 def on_launch(launch_request, session):
-    """ Called when the user launches the skill without specifying what they
-    want
-    """
-    # Dispatch to welcome intent handler
+
     return intents.handle_welcome()
 
 
 def on_intent(intent_request, session):
-    """ Called when the user specifies an intent """
     intent = intent_request['intent']
     intent_name = intent_request['intent']['name']
 
@@ -35,8 +30,4 @@ def on_intent(intent_request, session):
 
 
 def on_session_ended(session_ended_request, session):
-    """ Called when the user ends the session.
-
-    Is not called when the skill returns should_end_session=true
-    """
     pass

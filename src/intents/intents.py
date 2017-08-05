@@ -99,7 +99,7 @@ def handle_get_sermon_passage(intent, session):
         card_title += book + ' ' + start_chapter + ':' + start_verse + '-' + \
             end_chapter + ':' + end_verse
 
-        speech_output = book + ' chapter ' + start_chapter
+        speech_output = 'It\'s' + book + ' chapter ' + start_chapter
         if start_chapter == end_chapter:
             speech_output += ' verses ' + start_verse + ' to ' + \
                              end_verse + '. '
