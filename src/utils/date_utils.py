@@ -4,8 +4,8 @@ import re
 
 def sunday_from(amazon_date):
     # Returns a datetime object for the given Amazon.DATE
-    if re.match(r'20\d\d-\d\d-\d\d', amazon_date):
-        date = datetime.strptime(amazon_date, '%Y-%m-%d').date()
+    if re.match(r"20\d\d-\d\d-\d\d", amazon_date):
+        date = datetime.strptime(amazon_date, "%Y-%m-%d").date()
         if date.weekday() == 6:
             return date
         else:

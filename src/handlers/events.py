@@ -11,8 +11,8 @@ def on_launch(launch_request, session):
 
 
 def on_intent(intent_request, session):
-    intent = intent_request['intent']
-    intent_name = intent_request['intent']['name']
+    intent = intent_request["intent"]
+    intent_name = intent_request["intent"]["name"]
 
     # Dispatch to intent handlers
     if intent_name == "GetSermonPassage":
@@ -23,7 +23,8 @@ def on_intent(intent_request, session):
         return intents.handle_get_next_event(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
         return intents.handle_welcome()
-    elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
+    elif intent_name == "AMAZON.CancelIntent" \
+            or intent_name == "AMAZON.StopIntent":
         return intents.handle_session_end_request()
     else:
         raise ValueError("Invalid intent")
