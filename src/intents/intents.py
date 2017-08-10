@@ -1,8 +1,9 @@
-import utils.response_builder as response_builder
+import utils
 import resources.bible as bible
 import yaml
-import utils.date_utils as date_utils
 import os
+from intents.intents_utils import ensure_date_and_service_slots_filled, \
+    ensure_date_is_a_sunday, ensure_service_valid
 
 
 def handle_welcome():
@@ -12,8 +13,8 @@ def handle_welcome():
                     "would you like? "
     should_end_session = False
     reprompt_text = None
-    return response_builder.build_response(
-        session_attributes, response_builder.build_speechlet_response(
+    return utils.build_response(
+        session_attributes, utils.build_speechlet_response(
             card_title, "Hello!", speech_output, reprompt_text,
             should_end_session
         )
@@ -24,8 +25,8 @@ def handle_session_end_request():
     card_title = "Goodbye"
     speech_output = "Thanks for using Christ Church Mayfair Assistant. "
     should_end_session = True
-    return response_builder.build_response(
-        {}, response_builder.build_speechlet_response(
+    return utils.build_response(
+        {}, utils.build_speechlet_response(
             card_title=card_title, card_content=speech_output,
             output=speech_output, reprompt_text=None,
             should_end_session=should_end_session
@@ -34,42 +35,19 @@ def handle_session_end_request():
 
 
 def handle_get_sermon_passage(intent, session):
-    if ("value" not in intent["slots"]["Date"]) \
-            or ("value" not in intent["slots"]["Service"]):
-        speechlet_response = {
-            "shouldEndSession": False,
-            "directives": [{"type": "Dialog.Delegate"}]
-        }
-        return response_builder.build_response({}, speechlet_response)
-
     session_attributes = {}
 
-    try:
-        date = date_utils.sunday_from(intent["slots"]["Date"]["value"])
-    except RuntimeError as e:
-        speech_output = e.value()
-        get_date_directives = [{"type": "Dialog.ElicitSlot",
-                                "slotToElicit": "ReadPassage"}]
-        speechlet_response = response_builder.build_speechlet_response(
-            output=speech_output, reprompt_text=None,
-            should_end_session=False,
-            directives=get_date_directives)
-        return response_builder.build_response(session_attributes,
-                                               speechlet_response)
+    maybe_response = ensure_date_and_service_slots_filled(intent)
+    if maybe_response:
+        return maybe_response
 
-    try:
-        service = intent["slots"]["Service"]["resolutions"][
-            "resolutionsPerAuthority"][0]["values"][0]["value"]["id"].lower()
-    except KeyError:
-        speech_output = "Sorry, I didn't get which sevice you wanted. " \
-                        "Please could you repeat that? "
-        speechlet_response = response_builder.build_speechlet_response(
-            output=speech_output, reprompt_text=None,
-            should_end_session=False,
-            directives=[{"type": "Dialog.ElicitSlot",
-                         "slotToElicit": "ReadPassage"}])
-        return response_builder.build_response(session_attributes,
-                                               speechlet_response)
+    date, maybe_response = ensure_date_is_a_sunday(intent, session_attributes)
+    if maybe_response:
+        return maybe_response
+
+    service, maybe_response = ensure_service_valid(intent, session_attributes)
+    if maybe_response:
+        return maybe_response
 
     data_path = os.path.join(os.environ["LAMBDA_TASK_ROOT"], "resources",
                              "data", "passages.yaml")
@@ -122,14 +100,13 @@ def handle_get_sermon_passage(intent, session):
         speech_output += "I've sent this bible passage to your Alexa app. "
         speech_output += "Would you like me to read this out? "
 
-        speechlet_response = response_builder.build_speechlet_response(
+        speechlet_response = utils.build_speechlet_response(
             card_title=card_title, card_content=passage_text,
             output=speech_output, reprompt_text=None,
             should_end_session=should_end_session,
             directives=get_read_passage_directives)
 
-        return response_builder.build_response(session_attributes,
-                                               speechlet_response)
+        return utils.build_response(session_attributes, speechlet_response)
 
     try:
         to_read_passage = intent["slots"]["ReadPassage"]["resolutions"][
@@ -138,21 +115,20 @@ def handle_get_sermon_passage(intent, session):
     except KeyError:
         speech_output = "Sorry, I didn't get that. Please could you repeat " \
                         "that? "
-        speechlet_response = response_builder.build_speechlet_response(
+        speechlet_response = utils.build_speechlet_response(
             output=speech_output, reprompt_text=None,
             should_end_session=False,
             directives=get_read_passage_directives)
-        return response_builder.build_response(session_attributes,
-                                               speechlet_response)
+        return utils.build_response(session_attributes, speechlet_response)
 
     output = bible.remove_square_bracketed_verse_numbers(passage_text) \
         if to_read_passage else "Okay "
 
-    speechlet_response = response_builder.build_speechlet_response(
+    speechlet_response = utils.build_speechlet_response(
         output=output, reprompt_text=None,
         should_end_session=True)
 
-    return response_builder.build_response(session_attributes,
+    return utils.build_response(session_attributes,
                                            speechlet_response)
 
 
@@ -163,8 +139,8 @@ def handle_get_next_event(intent, session):
     speech_output = "You asked me for the next CCM event, but I can't do it " \
                     "because I've not been programmed to yet. Sorry! "
     should_end_session = False
-    return response_builder.build_response(
-        session_attributes, response_builder.build_speechlet_response(
+    return utils.build_response(
+        session_attributes, utils.build_speechlet_response(
             output=speech_output, reprompt_text=reprompt_text,
             should_end_session=should_end_session, card_content=None,
             card_title=None
@@ -173,14 +149,26 @@ def handle_get_next_event(intent, session):
 
 
 def handle_play_sermon(intent, session):
-    # TODO: implement this method
     session_attributes = {}
+
+    maybe_response = ensure_date_and_service_slots_filled(intent)
+    if maybe_response:
+        return maybe_response
+
+    date, maybe_response = ensure_date_is_a_sunday(intent, session_attributes)
+    if maybe_response:
+        return maybe_response
+
+    service, maybe_response = ensure_service_valid(intent, session_attributes)
+    if maybe_response:
+        return maybe_response
+
     reprompt_text = None
     speech_output = "You asked me to play you a sermon, but I can't do it " \
                     "because I've not been programmed to yet. Sorry! "
     should_end_session = False
-    return response_builder.build_response(
-        session_attributes, response_builder.build_speechlet_response(
+    return utils.build_response(
+        session_attributes, utils.build_speechlet_response(
             output=speech_output, reprompt_text=reprompt_text,
             should_end_session=should_end_session, card_content=None,
             card_title=None
