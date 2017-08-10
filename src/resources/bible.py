@@ -25,7 +25,7 @@ def process_html_passage(passage_html):
 
 def get_bible_text(book, start_chapter, start_verse, end_chapter, end_verse,
                    with_verse_numbers=True):
-    api_call_url = "eng-{}/passages.js?q[]={}+{}:{}-" \
+    api_call_url = "https://bibles.org/v2/eng-{}/passages.js?q[]={}+{}:{}-" \
                    "{}:{}".format(
         TRANSLATION,
         book,
