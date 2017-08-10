@@ -15,8 +15,9 @@ def handle_welcome():
     reprompt_text = None
     return utils.build_response(
         session_attributes, utils.build_speechlet_response(
-            card_title, "Hello!", speech_output, reprompt_text,
-            should_end_session
+            card_title=card_title, card_content="Hello!", output=speech_output,
+            reprompt_text=reprompt_text,
+            should_end_session=should_end_session
         )
     )
 
