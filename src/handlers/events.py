@@ -1,4 +1,4 @@
-import intents.intents as intents
+import intents
 
 
 def on_session_started(session_started_request, session):
@@ -26,6 +26,22 @@ def on_intent(intent_request, session):
     elif intent_name == "AMAZON.CancelIntent" \
             or intent_name == "AMAZON.StopIntent":
         return intents.handle_session_end_request()
+    # Audio player intents
+    elif intent_name in ["AMAZON.LoopOffIntent",
+                         "AMAZON.LoopOnIntent",
+                         "AMAZON.RepeatIntent",
+                         "AMAZON.ShuffleOffIntent",
+                         "AMAZON.ShuffleOnIntent",
+                         "AMAZON.StartOverIntent"]:
+        return intents.handle_irrelevant_audio_intent()
+    elif intent_name == "AMAZON.PauseIntent":
+        return intents.handle_pause(intent, session)
+    elif intent_name == "AMAZON.ResumeIntent":
+        return intents.handle_resume(intent, session)
+    elif intent_name == "AMAZON.PreviousIntent":
+        return intents.handle_previous(intent, session)
+    elif intent_name == "AMAZON.NextIntent":
+        return intents.handle_next(intent, session)
     else:
         raise ValueError("Invalid intent")
 
