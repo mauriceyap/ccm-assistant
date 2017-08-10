@@ -2,7 +2,7 @@ import utils
 import resources.bible as bible
 import yaml
 import os
-from intents.intents_utils import ensure_date_and_service_slots_filled, \
+from .intents_utils import ensure_date_and_service_slots_filled, \
     ensure_date_is_a_sunday, ensure_service_valid
 
 
