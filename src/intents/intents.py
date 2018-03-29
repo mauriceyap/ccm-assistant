@@ -1,5 +1,6 @@
 import utils
 import resources.bible as bible
+import resources.passages as passages
 import yaml
 import os
 from .intents_utils import ensure_date_and_service_slots_filled, \
@@ -50,10 +51,14 @@ def handle_get_sermon_passage(intent, session):
     if maybe_response:
         return maybe_response
 
-    data_path = os.path.join(os.environ["LAMBDA_TASK_ROOT"], "resources",
-                             "data", "passages.yaml")
-    data = open(data_path).read()
-    reading_data = yaml.load(data)[date][service]
+    reading_data = passages.get_passage(date, service)
+    if not reading_data:
+        speech_output = "There isn't a Bible passage for that date "
+        speechlet_response = utils.build_speechlet_response(
+            output=speech_output, reprompt_text=None,
+            should_end_session=True)
+        return utils.build_response(session_attributes, speechlet_response)
+
     book = reading_data["book"]
     start_chapter = str(reading_data["start"]["chapter"])
     start_verse = str(reading_data["start"]["verse"])
@@ -129,8 +134,7 @@ def handle_get_sermon_passage(intent, session):
         output=output, reprompt_text=None,
         should_end_session=True)
 
-    return utils.build_response(session_attributes,
-                                           speechlet_response)
+    return utils.build_response(session_attributes, speechlet_response)
 
 
 def handle_get_next_event(intent, session):

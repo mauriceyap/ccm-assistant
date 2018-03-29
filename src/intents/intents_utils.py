@@ -17,7 +17,7 @@ def ensure_date_is_a_sunday(intent, session_attributes):
     try:
         date = utils.sunday_from(intent["slots"]["Date"]["value"])
     except RuntimeError as e:
-        speech_output = e.value()
+        speech_output = e.message
         get_date_directives = [{"type": "Dialog.ElicitSlot",
                                 "slotToElicit": "ReadPassage"}]
         speechlet_response = utils.build_speechlet_response(
