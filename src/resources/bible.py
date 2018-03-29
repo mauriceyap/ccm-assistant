@@ -2,7 +2,7 @@ import re
 import requests
 
 BIBLE_SEARCH_API_KEY = "xfrxzZpI8YdyOvTFP2RJkhn0FYQRNnfq3xZgOtrc"
-TRANSLATION = "ESV"  # Can't use NIV - it's still in copyright
+TRANSLATION = "GNBDC"  # Can't use NIV - it's still in copyright
 
 
 def process_html_passage(passage_html):
