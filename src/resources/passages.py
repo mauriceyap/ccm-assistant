@@ -11,6 +11,9 @@ def get_passage(date, service):
         reader = csv.DictReader(f)
         for row in reader:
             if row['date'] == date.strftime('%Y-%m-%d'):
+                if not row['{} book'.format(service)]:
+                    return None
+
                 return {
                     'book': row['{} book'.format(service)],
                     'start': {
