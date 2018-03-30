@@ -12,6 +12,8 @@ def handle_irrelevant_audio_intent():
 
 
 def handle_pause(intent, session):
+    user_id = session["user"]["userId"]
+
     return utils.build_response({}, utils.build_audio_player_stop_response())
 
 

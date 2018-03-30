@@ -22,6 +22,7 @@ def lambda_handler(event, context):
     if request_type == "LaunchRequest":
         return events.on_launch(event["request"], event["session"])
     elif request_type == "IntentRequest":
-        return events.on_intent(event["request"], event["session"])
+        return events.on_intent(event["request"], event["session"],
+                                event["context"])
     elif request_type == "SessionEndedRequest":
         return events.on_session_ended(event["request"], event["session"])

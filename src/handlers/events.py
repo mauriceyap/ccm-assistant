@@ -10,7 +10,7 @@ def on_launch(launch_request, session):
     return intents.handle_welcome()
 
 
-def on_intent(intent_request, session):
+def on_intent(intent_request, session, context):
     intent = intent_request["intent"]
     intent_name = intent_request["intent"]["name"]
 
