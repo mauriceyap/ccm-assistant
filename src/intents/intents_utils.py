@@ -44,3 +44,9 @@ def ensure_service_valid(intent, session_attributes):
         return None, utils.build_response(session_attributes,
                                           speechlet_response)
     return service, None
+
+
+def ensure_date_is_not_in_the_future(intent):
+    date = utils.sunday_from(intent["slots"]["Date"]["value"])
+    if not utils.is_not_in_future(date):
+        return # TODO: response telling user that the date is not in the past

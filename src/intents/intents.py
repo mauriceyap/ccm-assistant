@@ -4,7 +4,7 @@ import resources.passages as passages
 import yaml
 import os
 from .intents_utils import ensure_date_and_service_slots_filled, \
-    ensure_date_is_a_sunday, ensure_service_valid
+    ensure_date_is_a_sunday, ensure_service_valid, ensure_date_is_not_in_the_future
 
 
 def handle_welcome():
@@ -165,6 +165,10 @@ def handle_play_sermon(intent, session):
         return maybe_response
 
     service, maybe_response = ensure_service_valid(intent, session_attributes)
+    if maybe_response:
+        return maybe_response
+
+    maybe_response = ensure_date_is_not_in_the_future(intent)
     if maybe_response:
         return maybe_response
 

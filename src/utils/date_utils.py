@@ -20,3 +20,7 @@ def sunday_from(amazon_date):
     else:
         print(amazon_date)
         return None
+
+
+def is_not_in_future(date):
+    return date <= date.today()
