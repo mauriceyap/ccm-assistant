@@ -1,4 +1,5 @@
 import re
+import resources.playback_db as playback_db
 
 
 def convert_http_mp3_to_https_m3u(http_mp3_url):
@@ -81,8 +82,7 @@ def build_audio_player_play_response(user_id, audio_stream_url,
             "content": card_content
         }
         audio_player_response["card"] = card
-
-    # TODO: store user_id and audio_url
+    playback_db.store_audio_url_for_user(user_id, audio_stream_url)
 
     return audio_player_response
 
