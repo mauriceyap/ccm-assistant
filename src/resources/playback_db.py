@@ -1,12 +1,13 @@
 import boto3
-#import os
+import os
 
 
-dynamodb = boto3.resource('dynamodb'#, region_name='eu-west-1',
-                          #endpoint_url=("https://dynamodb.eu-west-1."
-                          #              "amazonaws.com")#,
-                          #aws_access_key_id=os.environ['AWS_ACCESS_KEY'],
-                          #aws_secret_access_key=os.environ['AWS_SECRET_KEY']
+dynamodb = boto3.resource('dynamodb', region_name='eu-west-1',
+                          endpoint_url=("https://dynamodb.eu-west-1."
+                                        "amazonaws.com"),
+                          aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+                          aws_secret_access_key=os.environ['AWS_'
+                                                           'SECRET_ACCESS_KEY']
                           )
 table = dynamodb.Table('alexa-ChristChurchMayfairAssistant-playback')
 
