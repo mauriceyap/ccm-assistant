@@ -34,7 +34,7 @@ def ensure_service_valid(intent, session_attributes):
         service = intent["slots"]["Service"]["resolutions"][
             "resolutionsPerAuthority"][0]["values"][0]["value"]["id"].lower()
     except KeyError:
-        speech_output = "Sorry, I didn't get which sevice you wanted. " \
+        speech_output = "Sorry, I didn't get which service you wanted. " \
                         "Please could you repeat that? "
         speechlet_response = utils.build_speechlet_response(
             output=speech_output, reprompt_text=None,
@@ -46,7 +46,11 @@ def ensure_service_valid(intent, session_attributes):
     return service, None
 
 
-def ensure_date_is_not_in_the_future(intent):
+def ensure_date_is_not_in_the_future(intent, session_attributes):
     date = utils.sunday_from(intent["slots"]["Date"]["value"])
     if not utils.is_not_in_future(date):
-        return # TODO: response telling user that the date is not in the past
+        speech_output = "That service hasn't happened yet! "
+        speechlet_response = utils.build_speechlet_response(
+            output=speech_output, reprompt_text=None, should_end_session=True)
+        return utils.build_response(session_attributes, speechlet_response)
+    return None

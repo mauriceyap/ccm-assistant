@@ -168,7 +168,8 @@ def handle_play_sermon(intent, session):
     if maybe_response:
         return maybe_response
 
-    maybe_response = ensure_date_is_not_in_the_future(intent)
+    maybe_response = ensure_date_is_not_in_the_future(intent,
+                                                      session_attributes)
     if maybe_response:
         return maybe_response
 
