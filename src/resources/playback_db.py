@@ -2,9 +2,9 @@ import boto3
 #import os
 
 
-dynamodb = boto3.resource('dynamodb', region_name='eu-west-1',
-                          endpoint_url=("https://dynamodb.eu-west-1."
-                                        "amazonaws.com")#,
+dynamodb = boto3.resource('dynamodb'#, region_name='eu-west-1',
+                          #endpoint_url=("https://dynamodb.eu-west-1."
+                          #              "amazonaws.com")#,
                           #aws_access_key_id=os.environ['AWS_ACCESS_KEY'],
                           #aws_secret_access_key=os.environ['AWS_SECRET_KEY']
                           )
