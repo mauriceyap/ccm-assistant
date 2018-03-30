@@ -34,9 +34,10 @@ def build_speechlet_response(output, reprompt_text, should_end_session,
     return speechlet_response
 
 
-def build_audio_player_play_response(output_speech, reprompt_text,
-                                     audio_stream_url, should_end_session,
-                                     card_title=None, card_content=None):
+def build_audio_player_play_response(user_id, audio_stream_url,
+                                     should_end_session, output_speech=None,
+                                     reprompt_text=None, card_title=None,
+                                     card_content=None, offset=0):
     audio_player_response = {
         "outputSpeech": {
             "type": "PlainText",
@@ -65,7 +66,7 @@ def build_audio_player_play_response(output_speech, reprompt_text,
                     "token": "MAGIC_STRING_TOKEN",
                     # playBehaviour ENQUEUE is never used so token is arbitrary
                     "url": audio_stream_url,
-                    "offsetInMilliseconds": 0
+                    "offsetInMilliseconds": offset
                 }
             }
         }
@@ -80,6 +81,8 @@ def build_audio_player_play_response(output_speech, reprompt_text,
             "content": card_content
         }
         audio_player_response["card"] = card
+
+    # TODO: store user_id and audio_url
 
     return audio_player_response
 

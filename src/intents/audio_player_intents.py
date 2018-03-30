@@ -11,12 +11,20 @@ def handle_irrelevant_audio_intent():
     )
 
 
-def handle_pause(intent, session):
+def handle_pause(intent, session, context):
     user_id = session["user"]["userId"]
+    offset = context["AudioPlayer"]["offsetInMilliseconds"]
+    # TODO: store in db
 
     return utils.build_response({}, utils.build_audio_player_stop_response())
 
 
 def handle_resume(intent, session):
+    user_id = session["user"]["userId"]
+    audio_url = ''
+    offset = ''
+    # TODO: fetch above from database
     # TODO: implement this handler
-    pass
+    return utils.build_response({}, utils.build_audio_player_play_response(
+        user_id=user_id, audio_stream_url=audio_url, should_end_session=True,
+        offset=offset))

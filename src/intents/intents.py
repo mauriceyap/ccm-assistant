@@ -184,7 +184,8 @@ def handle_play_sermon(intent, session):
         session_attributes, utils.build_audio_player_play_response(
             output_speech=speech_output, reprompt_text=reprompt_text,
             audio_stream_url=sermon["audio_url"],
-            should_end_session=should_end_session, card_content=card_content,
+            should_end_session=should_end_session,
+            user_id=session["user"]["userId"], card_content=card_content,
             card_title=sermon["title"]
         )
     )
