@@ -13,38 +13,42 @@ table = dynamodb.Table('alexa-ChristChurchMayfairAssistant-playback')
 
 
 def store_audio_url_for_user(user_id, audio_url):
-    table.put_item(
-        Item={
-            'user_id': user_id,
-            'audio_url': audio_url
-        }
-    )
+    # table.put_item(
+    #     Item={
+    #         'user_id': user_id,
+    #         'audio_url': audio_url
+    #     }
+    # )
+    pass
 
 
 def store_offset_for_user(user_id, offset):
-    table.update_item(
-        Key={
-            'user_id': user_id
-        },
-        UpdateExpression="set offset=:o",
-        ExpressionAttributeValues={
-            ':o': offset
-        }
-    )
+    # table.update_item(
+    #     Key={
+    #         'user_id': user_id
+    #     },
+    #     UpdateExpression="set offset=:o",
+    #     ExpressionAttributeValues={
+    #         ':o': offset
+    #     }
+    # )
+    pass
 
 
 def get_data_for_user(user_id):
-    response = table.get_item(
-        Key={
-            'user_id': user_id
-        }
-    )
-    return response['Item']
+    # response = table.get_item(
+    #     Key={
+    #         'user_id': user_id
+    #     }
+    # )
+    # return response['Item']
+    pass
 
 
 def reset_user(user_id):
-    table.delete_item(
-        Key={
-            'user_id': user_id
-        }
-    )
+    # table.delete_item(
+    #     Key={
+    #         'user_id': user_id
+    #     }
+    # )
+    pass
