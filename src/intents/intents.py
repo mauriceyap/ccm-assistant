@@ -1,8 +1,7 @@
 import utils
 import resources.bible as bible
 import resources.passages as passages
-import yaml
-import os
+import resources.sermons as sermons
 from .intents_utils import ensure_date_and_service_slots_filled, \
     ensure_date_is_a_sunday, ensure_service_valid, ensure_date_is_not_in_the_future
 
@@ -173,14 +172,20 @@ def handle_play_sermon(intent, session):
     if maybe_response:
         return maybe_response
 
+    sermon = sermons.get_sermon(date, service)
+
     reprompt_text = None
-    speech_output = "You asked me to play you a sermon, but I can't do it " \
-                    "because I've not been programmed to yet. Sorry! "
+    speech_output = "Here's the sermon, {}, by {} ".format(sermon["title"],
+                                                           sermon["speaker"])
     should_end_session = True
+    card_content = "{}<br />{}<br />".format(sermon["passage"],
+                                             sermon["series_name"],
+                                             sermon["speaker"])
     return utils.build_response(
-        session_attributes, utils.build_speechlet_response(
-            output=speech_output, reprompt_text=reprompt_text,
-            should_end_session=should_end_session, card_content=None,
-            card_title=None
+        session_attributes, utils.build_audio_player_response(
+            output_speech=speech_output, reprompt_text=reprompt_text,
+            audio_stream_url=sermon["audio_url"],
+            should_end_session=should_end_session, card_content=card_content,
+            card_title=sermon["title"]
         )
     )
