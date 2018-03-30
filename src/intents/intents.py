@@ -143,7 +143,7 @@ def handle_get_next_event(intent, session):
     reprompt_text = None
     speech_output = "You asked me for the next CCM event, but I can't do it " \
                     "because I've not been programmed to yet. Sorry! "
-    should_end_session = False
+    should_end_session = True
     return utils.build_response(
         session_attributes, utils.build_speechlet_response(
             output=speech_output, reprompt_text=reprompt_text,
@@ -176,7 +176,7 @@ def handle_play_sermon(intent, session):
     reprompt_text = None
     speech_output = "You asked me to play you a sermon, but I can't do it " \
                     "because I've not been programmed to yet. Sorry! "
-    should_end_session = False
+    should_end_session = True
     return utils.build_response(
         session_attributes, utils.build_speechlet_response(
             output=speech_output, reprompt_text=reprompt_text,
