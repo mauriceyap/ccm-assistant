@@ -34,9 +34,9 @@ def build_speechlet_response(output, reprompt_text, should_end_session,
     return speechlet_response
 
 
-def build_audio_player_response(output_speech, reprompt_text, audio_stream_url,
-                                should_end_session, card_title=None,
-                                card_content=None):
+def build_audio_player_play_response(output_speech, reprompt_text,
+                                     audio_stream_url, should_end_session,
+                                     card_title=None, card_content=None):
     audio_player_response = {
         "outputSpeech": {
             "type": "PlainText",
@@ -84,10 +84,30 @@ def build_audio_player_response(output_speech, reprompt_text, audio_stream_url,
     return audio_player_response
 
 
+def build_audio_player_stop_response():
+    return {
+        "outputSpeech": {
+            "type": "PlainText",
+            "text": None
+        },
+        "reprompt": {
+            "outputSpeech": {
+                "type": "PlainText",
+                "text": None
+            }
+        },
+        "shouldEndSession": True,
+        "directives": [
+            {
+                "type": "AudioPlayer.Stop"
+            }
+        ]
+    }
+
+
 def build_response(session_attributes, response):
     return {
         "version": "1.0",
         "sessionAttributes": session_attributes,
         "response": response
-
     }

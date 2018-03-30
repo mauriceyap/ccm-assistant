@@ -32,16 +32,14 @@ def on_intent(intent_request, session):
                          "AMAZON.RepeatIntent",
                          "AMAZON.ShuffleOffIntent",
                          "AMAZON.ShuffleOnIntent",
-                         "AMAZON.StartOverIntent"]:
+                         "AMAZON.StartOverIntent",
+                         "AMAZON.PreviousIntent",
+                         "AMAZON.NextIntent"]:
         return intents.handle_irrelevant_audio_intent()
     elif intent_name == "AMAZON.PauseIntent":
         return intents.handle_pause(intent, session)
     elif intent_name == "AMAZON.ResumeIntent":
         return intents.handle_resume(intent, session)
-    elif intent_name == "AMAZON.PreviousIntent":
-        return intents.handle_previous(intent, session)
-    elif intent_name == "AMAZON.NextIntent":
-        return intents.handle_next(intent, session)
     else:
         raise ValueError("Invalid intent")
 

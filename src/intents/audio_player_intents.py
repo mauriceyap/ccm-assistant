@@ -12,20 +12,9 @@ def handle_irrelevant_audio_intent():
 
 
 def handle_pause(intent, session):
-    # TODO: implement this handler
-    pass
+    return utils.build_response({}, utils.build_audio_player_stop_response())
 
 
 def handle_resume(intent, session):
-    # TODO: implement this handler
-    pass
-
-
-def handle_next(intent, session):
-    # TODO: implement this handler
-    pass
-
-
-def handle_previous(intent, session):
     # TODO: implement this handler
     pass

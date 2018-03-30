@@ -178,11 +178,10 @@ def handle_play_sermon(intent, session):
     speech_output = "Here's the sermon, {}, by {} ".format(sermon["title"],
                                                            sermon["speaker"])
     should_end_session = True
-    card_content = "{}<br />{}<br />".format(sermon["passage"],
-                                             sermon["series_name"],
-                                             sermon["speaker"])
+    card_content = "{}\n{}\n{}".format(sermon["passage"], sermon["series_name"],
+                                       sermon["speaker"])
     return utils.build_response(
-        session_attributes, utils.build_audio_player_response(
+        session_attributes, utils.build_audio_player_play_response(
             output_speech=speech_output, reprompt_text=reprompt_text,
             audio_stream_url=sermon["audio_url"],
             should_end_session=should_end_session, card_content=card_content,
