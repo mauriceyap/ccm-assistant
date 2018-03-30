@@ -24,3 +24,7 @@ def sunday_from(amazon_date):
 
 def is_not_in_future(date):
     return date <= date.today()
+
+
+def date_from_ccm_xml_text(text):
+    return datetime.strptime(text[:-6], "%a, %d %b %Y %H:%M:%S").date()
