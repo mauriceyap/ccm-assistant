@@ -1,5 +1,4 @@
 import re
-import resources.playback_db as playback_db
 
 
 def convert_http_mp3_to_https_m3u(http_mp3_url):
@@ -35,10 +34,10 @@ def build_speechlet_response(output, reprompt_text, should_end_session,
     return speechlet_response
 
 
-def build_audio_player_play_response(user_id, audio_stream_url,
-                                     should_end_session, output_speech=None,
-                                     reprompt_text=None, card_title=None,
-                                     card_content=None, offset=0):
+def build_audio_player_play_response(audio_stream_url, should_end_session,
+                                     output_speech=None, reprompt_text=None,
+                                     card_title=None, card_content=None,
+                                     offset=0):
     audio_player_response = {
         "outputSpeech": {
             "type": "PlainText",
@@ -64,8 +63,7 @@ def build_audio_player_play_response(user_id, audio_stream_url,
             "playBehavior": "REPLACE_ALL",
             "audioItem": {
                 "stream": {
-                    "token": "MAGIC_STRING_TOKEN",
-                    # playBehaviour ENQUEUE is never used so token is arbitrary
+                    "token": audio_stream_url,
                     "url": audio_stream_url,
                     "offsetInMilliseconds": offset
                 }
@@ -82,7 +80,6 @@ def build_audio_player_play_response(user_id, audio_stream_url,
             "content": card_content
         }
         audio_player_response["card"] = card
-    playback_db.store_audio_url_for_user(user_id, audio_stream_url)
 
     return audio_player_response
 

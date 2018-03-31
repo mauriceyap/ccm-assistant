@@ -39,9 +39,7 @@ def on_intent(intent_request, session, context):
     elif intent_name == "AMAZON.PauseIntent":
         return intents.handle_pause(intent, session, context)
     elif intent_name == "AMAZON.ResumeIntent":
-        return intents.handle_resume(intent, session)
-    elif intent['type'] == 'AudioPlayer.PlaybackFinished':
-        intents.handle_finished_playing(session)
+        return intents.handle_resume(intent, session, context)
     else:
         raise ValueError("Invalid intent")
 
