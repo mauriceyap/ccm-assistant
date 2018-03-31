@@ -19,7 +19,7 @@ def ensure_date_is_a_sunday(intent, session_attributes):
     except RuntimeError as e:
         speech_output = e.message
         get_date_directives = [{"type": "Dialog.ElicitSlot",
-                                "slotToElicit": "ReadPassage"}]
+                                "slotToElicit": "Date"}]
         speechlet_response = utils.build_speechlet_response(
             output=speech_output, reprompt_text=None,
             should_end_session=False,
@@ -40,7 +40,7 @@ def ensure_service_valid(intent, session_attributes):
             output=speech_output, reprompt_text=None,
             should_end_session=False,
             directives=[{"type": "Dialog.ElicitSlot",
-                         "slotToElicit": "ReadPassage"}])
+                         "slotToElicit": "Service"}])
         return None, utils.build_response(session_attributes,
                                           speechlet_response)
     return service, None
