@@ -174,6 +174,16 @@ def handle_play_sermon(intent, session):
 
     sermon = sermons.get_sermon(date, service)
 
+    if not sermon:
+        return utils.build_response(
+            session_attributes,
+            utils.build_speechlet_response(
+                output="I'm afraid that sermon isn't available. ",
+                reprompt_text=None,
+                should_end_session=True
+            )
+        )
+
     reprompt_text = None
     speech_output = "Here's the sermon, {}, by {} ".format(sermon["title"],
                                                            sermon["speaker"])
