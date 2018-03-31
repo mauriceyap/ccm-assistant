@@ -55,7 +55,7 @@ def handle_get_sermon_passage(intent, session):
         speech_output = "There isn't a Bible passage for that date "
         speechlet_response = utils.build_speechlet_response(
             output=speech_output, reprompt_text=None,
-            should_end_session=True)
+            should_end_session=False)
         return utils.build_response(session_attributes, speechlet_response)
 
     book = reading_data["book"]
