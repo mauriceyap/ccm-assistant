@@ -6,12 +6,15 @@ APPLICATION_ID = "amzn1.ask.skill.dd677950-cade-4805-b1f1-ce2e3a3569f0"
 
 
 def lambda_handler(event, context):
+    # Log input event to CloudWatch
+    print("EVENT OBJECT:")
+    print(json.dumps(event))
+    print("CONTEXT OBJECT:")
+    print(json.dumps(context))
+
     # Make sure only this Alexa skill can use this function
     if event["session"]["application"]["applicationId"] != APPLICATION_ID:
         raise ValueError("Invalid Application ID")
-
-    # Log input event to CloudWatch
-    print(json.dumps(event))
 
     if event["session"]["new"]:
         events.on_session_started({"requestId": event["request"]["requestId"]},
