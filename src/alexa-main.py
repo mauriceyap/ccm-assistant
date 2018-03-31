@@ -9,8 +9,6 @@ def lambda_handler(event, context):
     # Log input event to CloudWatch
     print("EVENT OBJECT:")
     print(json.dumps(event))
-    print("CONTEXT OBJECT:")
-    print(json.dumps(context))
 
     # Make sure only this Alexa skill can use this function
     if event["session"]["application"]["applicationId"] != APPLICATION_ID:
