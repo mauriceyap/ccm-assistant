@@ -11,7 +11,7 @@ def handle_irrelevant_audio_intent():
     )
 
 
-def handle_pause(intent, session, context):
+def handle_pause(intent, session):
     return utils.build_response({}, utils.build_audio_player_stop_response())
 
 

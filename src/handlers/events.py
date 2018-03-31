@@ -37,7 +37,7 @@ def on_intent(intent_request, session, context):
                          "AMAZON.NextIntent"]:
         return intents.handle_irrelevant_audio_intent()
     elif intent_name == "AMAZON.PauseIntent":
-        return intents.handle_pause(intent, session, context)
+        return intents.handle_pause(intent, session)
     elif intent_name == "AMAZON.ResumeIntent":
         return intents.handle_resume(intent, session, context)
     else:
