@@ -55,7 +55,7 @@ def handle_get_sermon_passage(intent, session):
         speech_output = "There isn't a Bible passage for that date "
         speechlet_response = utils.build_speechlet_response(
             output=speech_output, reprompt_text=None,
-            should_end_session=False)
+            should_end_session=True)
         return utils.build_response(session_attributes, speechlet_response)
 
     book = reading_data["book"]
@@ -185,7 +185,7 @@ def handle_play_sermon(intent, session):
             output_speech=speech_output, reprompt_text=reprompt_text,
             audio_stream_url=sermon["audio_url"],
             should_end_session=should_end_session,
-            user_id=session["user"]["userId"], card_content=card_content,
+            card_content=card_content,
             card_title=sermon["title"]
         )
     )
