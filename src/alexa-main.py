@@ -11,7 +11,12 @@ def lambda_handler(event, context):
     print(json.dumps(event))
 
     # Make sure only this Alexa skill can use this function
-    if event["session"]["application"]["applicationId"] != APPLICATION_ID:
+    application_id = (
+        event["session"]["application"]["applicationId"]
+        if event.has_key("session")
+        else event["context"]["System"]["application"]["applicationId"]
+    )
+    if application_id != APPLICATION_ID:
         raise ValueError("Invalid Application ID")
 
     if event["session"]["new"]:
