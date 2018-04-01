@@ -40,7 +40,7 @@ def normalise_future_sermon_date(intent):
 
         new_date = datetime.date(original_date.year - 1, original_date.month,
                                  original_date.day)
-        intent["slots"]["Date"]["value"] = new_date
+        intent["slots"]["Date"]["value"] = new_date.strftime("%Y-%m-%d")
     return intent
 
 
@@ -52,5 +52,5 @@ def normalise_future_passage_date(intent):
 
         new_date = datetime.date(original_date.year - 1, original_date.month,
                                  original_date.day)
-        intent["slots"]["Date"]["value"] = new_date
+        intent["slots"]["Date"]["value"] = new_date.strftime("%Y-%m-%d")
     return intent
