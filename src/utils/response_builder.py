@@ -1,9 +1,10 @@
 import re
+import config
 
 
 def convert_http_mp3_to_https_m3u(http_mp3_url):
-    return ("https://0elu033c2a.execute-api.eu-west-1.amazonaws.com/"
-            "prod/m3uGenerator?url={}").format(http_mp3_url)
+    return config.get("http_mp3_to_https_m3u_api_url").format(
+        http_mp3_url=http_mp3_url)
 
 
 def build_speechlet_response(output, reprompt_text, should_end_session,

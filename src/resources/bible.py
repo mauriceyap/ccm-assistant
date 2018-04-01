@@ -1,8 +1,6 @@
 import re
 import requests
-
-BIBLE_SEARCH_API_KEY = "xfrxzZpI8YdyOvTFP2RJkhn0FYQRNnfq3xZgOtrc"
-TRANSLATION = "GNBDC"  # Can't use NIV - it's still in copyright
+import config
 
 
 def process_html_passage(passage_html):
@@ -25,17 +23,17 @@ def process_html_passage(passage_html):
 
 def get_bible_text(book, start_chapter, start_verse, end_chapter, end_verse,
                    with_verse_numbers=True):
-    api_call_url = "https://bibles.org/v2/eng-{}/passages.js?q[]={}+{}:{}-" \
-                   "{}:{}".format(
-        TRANSLATION,
-        book,
-        start_chapter,
-        start_verse,
-        end_chapter,
-        end_verse
+    api_call_url = config.get("bible_api_url").format(
+        translation=config.get("bible_translation"),
+        book=book,
+        start_chapter=start_chapter,
+        start_verse=start_verse,
+        end_chapter=end_chapter,
+        end_verse=end_verse
     )
-    print(api_call_url)
-    response = requests.get(api_call_url, auth=(BIBLE_SEARCH_API_KEY, "X "))
+    print("Bible API call url: {}".format(api_call_url))
+    response = requests.get(api_call_url,
+                            auth=(config.get("bible_api_key"), "X "))
     passage_html = response.json()["response"]["search"]["result"][
         "passages"][0]["text"]
     processed_passage = process_html_passage(passage_html)

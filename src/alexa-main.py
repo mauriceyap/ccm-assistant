@@ -1,8 +1,6 @@
 import json
-
+import config
 import handlers.events as events
-
-APPLICATION_ID = "amzn1.ask.skill.dd677950-cade-4805-b1f1-ce2e3a3569f0"
 
 
 def lambda_handler(event, context):
@@ -13,10 +11,10 @@ def lambda_handler(event, context):
     # Make sure only this Alexa skill can use this function
     application_id = (
         event["session"]["application"]["applicationId"]
-        if event.has_key("session")
+        if "session" in event.keys()
         else event["context"]["System"]["application"]["applicationId"]
     )
-    if application_id != APPLICATION_ID:
+    if application_id != config.get("application_id"):
         raise ValueError("Invalid Application ID")
 
     if event["session"]["new"]:
