@@ -13,9 +13,11 @@ def ensure_date_and_service_slots_filled(intent):
     return None
 
 
-def ensure_date_is_a_sunday(intent, session_attributes):
+def ensure_date_is_a_sunday(intent, session_attributes,
+                            future_days_go_back_year_threshold=0):
     try:
-        date = utils.sunday_from(intent["slots"]["Date"]["value"])
+        date = utils.sunday_from(intent["slots"]["Date"]["value"],
+                                 future_days_go_back_year_threshold)
     except RuntimeError as e:
         speech_output = e.message
         get_date_directives = [{"type": "Dialog.ElicitSlot",

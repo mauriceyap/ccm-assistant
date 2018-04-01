@@ -2,6 +2,7 @@ import utils
 import resources.bible as bible
 import resources.passages as passages
 import resources.sermons as sermons
+import config
 from .intents_utils import ensure_date_and_service_slots_filled, \
     ensure_date_is_a_sunday, ensure_service_valid, \
     ensure_date_is_not_in_the_future
@@ -43,9 +44,10 @@ def handle_get_sermon_passage(intent, session):
     if maybe_response:
         return maybe_response
 
-    intent = utils.normalise_future_passage_date(intent)
-
-    date, maybe_response = ensure_date_is_a_sunday(intent, session_attributes)
+    date, maybe_response = ensure_date_is_a_sunday(
+        intent, session_attributes,
+        future_days_go_back_year_threshold=config.get(
+            "future_days_go_back_year_threshold_passages"))
     if maybe_response:
         return maybe_response
 
@@ -162,9 +164,10 @@ def handle_play_sermon(intent, session):
     if maybe_response:
         return maybe_response
 
-    intent = utils.normalise_future_sermon_date(intent)
-
-    date, maybe_response = ensure_date_is_a_sunday(intent, session_attributes)
+    date, maybe_response = ensure_date_is_a_sunday(
+        intent, session_attributes,
+        future_days_go_back_year_threshold=config.get(
+            "future_days_go_back_year_threshold_sermons"))
     if maybe_response:
         return maybe_response
 

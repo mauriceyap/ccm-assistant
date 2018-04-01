@@ -7,7 +7,9 @@ config = {
     "http_mp3_to_https_m3u_api_url": ("https://0elu033c2a."
                                       "execute-api.eu-west-1.amazonaws.com/"
                                       "prod/m3uGenerator?url={http_mp3_url}"),
-    "application_id": "amzn1.ask.skill.dd677950-cade-4805-b1f1-ce2e3a3569f0"
+    "application_id": "amzn1.ask.skill.dd677950-cade-4805-b1f1-ce2e3a3569f0",
+    "future_days_go_back_year_threshold_sermons": 30,
+    "future_days_go_back_year_threshold_passages": 150
 }
 
 
