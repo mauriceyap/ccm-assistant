@@ -3,9 +3,11 @@ import re
 
 DAYS_IN_A_WEEK = 7
 WEEKS_IN_A_YEAR = 52
+LARGE_NUMBER_DAYS = 3650
 
 
-def sunday_from(amazon_date, future_days_go_back_year_threshold):
+def sunday_from(amazon_date,
+                future_days_go_back_year_threshold=LARGE_NUMBER_DAYS):
     # Returns a datetime object for the given Amazon.DATE
     if re.match(r"20\d\d-\d\d-\d\d", amazon_date):
         date = datetime.datetime.strptime(amazon_date, "%Y-%m-%d").date()
