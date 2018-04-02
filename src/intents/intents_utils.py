@@ -51,8 +51,7 @@ def ensure_service_valid(intent, session_attributes):
     return service, None
 
 
-def ensure_date_is_not_in_the_future(intent, session_attributes):
-    date = utils.sunday_from(intent["slots"]["Date"]["value"])
+def ensure_date_is_not_in_the_future(date, session_attributes):
     if not utils.is_not_in_future(date):
         speech_output = "That service hasn't happened yet! "
         speechlet_response = utils.build_speechlet_response(
