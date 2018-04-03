@@ -1,6 +1,6 @@
 def humanise_passage(book, start_chapter, start_verse, end_chapter, end_verse):
-    same_chapter = start_verse == end_chapter
-    return "{book} {chapter} {rest}".format(
+    same_chapter = start_chapter == end_chapter
+    return "{book} chapter {chapter} {rest}".format(
         book=book, chapter=start_chapter, rest=(
             "verse {start_verse}".format(start_verse=start_verse)
             if same_chapter and start_verse == end_verse
