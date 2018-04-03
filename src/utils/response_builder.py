@@ -1,15 +1,16 @@
 import re
 import config
+from requests import Request
 
 
 def convert_http_mp3_to_https_m3u(http_mp3_url):
-    return config.get("http_mp3_to_https_m3u_api_url").format(
-        http_mp3_url=http_mp3_url)
+    payload = {"url": http_mp3_url}
+    dummy_request = Request("GET", config.HTTP_MP3_TO_HTTPS_M3U_API_URL, params=payload).prepare()
+    return dummy_request.url
 
 
-def build_speechlet_response(output, reprompt_text, should_end_session,
-                             directives=None, card_title=None,
-                             card_content=None):
+def build_speechlet_response(output, reprompt_text, should_end_session, directives=None,
+                             card_title=None, card_content=None):
     speechlet_response = {
         "outputSpeech": {
             "type": "PlainText",
@@ -35,9 +36,8 @@ def build_speechlet_response(output, reprompt_text, should_end_session,
     return speechlet_response
 
 
-def build_audio_player_play_response(audio_stream_url, should_end_session,
-                                     output_speech=None, reprompt_text=None,
-                                     card_title=None, card_content=None,
+def build_audio_player_play_response(audio_stream_url, should_end_session, output_speech=None,
+                                     reprompt_text=None, card_title=None, card_content=None,
                                      offset=0):
     audio_player_response = {
         "outputSpeech": {
@@ -106,7 +106,10 @@ def build_audio_player_stop_response():
     }
 
 
-def build_response(session_attributes, response):
+def build_response(response, session_attributes=None):
+    # Ensure immutability of session_attributes
+    if session_attributes is None:
+        session_attributes = {}
     return {
         "version": "1.0",
         "sessionAttributes": session_attributes,

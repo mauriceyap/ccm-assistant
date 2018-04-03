@@ -3,207 +3,149 @@ import resources.bible as bible
 import resources.passages as passages
 import resources.sermons as sermons
 import config
-from .intents_utils import ensure_date_and_service_slots_filled, \
-    ensure_date_is_a_sunday, ensure_service_valid, \
-    ensure_date_is_not_in_the_future
+import cards
+import speech
+from .intents_utils import ensure_date_and_service_slots_filled, ensure_date_is_a_sunday, \
+    ensure_service_valid, ensure_date_is_not_in_the_future
 
 
 def handle_welcome():
-    session_attributes = {}
-    card_title = "Welcome"
-    speech_output = "Christ Church Mayfair Assistant at your service. What " \
-                    "would you like? "
+    speech_output = speech.WELCOME
     should_end_session = False
     reprompt_text = None
     return utils.build_response(
-        session_attributes, utils.build_speechlet_response(
-            card_title=card_title, card_content="Hello!", output=speech_output,
-            reprompt_text=reprompt_text,
-            should_end_session=should_end_session
-        )
+        utils.build_speechlet_response(card_title=cards.WELCOME_TITLE,
+                                       card_content=cards.WELCOME_CONTENT, output=speech_output,
+                                       reprompt_text=reprompt_text,
+                                       should_end_session=should_end_session)
     )
 
 
 def handle_session_end_request():
-    card_title = "Goodbye"
-    speech_output = "Thanks for using Christ Church Mayfair Assistant. "
     should_end_session = True
     return utils.build_response(
-        {}, utils.build_speechlet_response(
-            card_title=card_title, card_content=speech_output,
-            output=speech_output, reprompt_text=None,
-            should_end_session=should_end_session
-        )
+        utils.build_speechlet_response(card_title=cards.END_SESSION_TITLE,
+                                       card_content=cards.END_SESSION_CONTENT,
+                                       output=speech.END_SESSION, reprompt_text=None,
+                                       should_end_session=should_end_session)
     )
 
 
-def handle_get_sermon_passage(intent, session):
-    session_attributes = {}
-
+def handle_get_passage(intent):
     maybe_response = ensure_date_and_service_slots_filled(intent)
     if maybe_response:
         return maybe_response
 
     date, maybe_response = ensure_date_is_a_sunday(
-        intent, session_attributes,
-        future_days_go_back_year_threshold=config.get(
-            "future_days_go_back_year_threshold_passages"))
+        intent,
+        future_days_go_back_year_threshold=config.FUTURE_DAYS_GO_BACK_YEAR_THRESHOLD_PASSAGES)
     if maybe_response:
         return maybe_response
 
-    service, maybe_response = ensure_service_valid(intent, session_attributes)
+    service, maybe_response = ensure_service_valid(intent)
     if maybe_response:
         return maybe_response
 
     reading_data = passages.get_passage(date, service)
     if not reading_data:
-        speech_output = "There isn't a Bible passage for that date "
-        speechlet_response = utils.build_speechlet_response(
-            output=speech_output, reprompt_text=None,
-            should_end_session=True)
-        return utils.build_response(session_attributes, speechlet_response)
+        speechlet_response = utils.build_speechlet_response(output=speech.NO_BIBLE_PASSAGE,
+                                                            reprompt_text=None,
+                                                            should_end_session=True)
+        return utils.build_response(speechlet_response)
 
     book = reading_data["book"]
     start_chapter = str(reading_data["start"]["chapter"])
     start_verse = str(reading_data["start"]["verse"])
     end_chapter = str(reading_data["end"]["chapter"])
     end_verse = str(reading_data["end"]["verse"])
-    passage_text = bible.get_bible_text(book, start_chapter, start_verse,
-                                        end_chapter, end_verse)
+    humanised_passage = utils.humanise_passage(book, start_chapter, start_verse, end_chapter,
+                                               end_verse)
+    passage_text = bible.get_bible_text(book, start_chapter, start_verse, end_chapter, end_verse)
 
-    get_read_passage_directives = [{"type": "Dialog.ElicitSlot",
-                                    "slotToElicit": "ReadPassage"}]
+    get_read_passage_directives = [{"type": "Dialog.ElicitSlot", "slotToElicit": "ReadPassage"}]
 
     if "value" not in intent["slots"]["ReadPassage"]:
         should_end_session = False
-        if 4 <= date.day <= 20 or 24 <= date.day <= 30:
-            suffix = "th"
-        else:
-            suffix = ["st", "nd", "rd"][date.day % 10 - 1]
-        service_text = "AM" if service == "morning" else "PM"
-        card_title = "{}{} {} {} - ".format(
-            str(date.day),
-            suffix,
-            date.strftime("%B %Y"),
-            service_text
-        )
-        card_title += "{} {}:{}-{}:{}".format(
-            book,
-            start_chapter,
-            start_verse,
-            end_chapter,
-            end_verse
-        )
-
-        speech_output = "It's {} chapter {} ".format(book, start_chapter)
-        if start_chapter == end_chapter:
-            speech_output += "verses {} to {}. ".format(
-                start_verse,
-                end_verse
-            )
-        else:
-            speech_output += "verse {} to chapter {} verse {}. ".format(
-                start_verse,
-                end_chapter,
-                end_verse
-            )
-        speech_output += "I've sent this bible passage to your Alexa app. "
-        speech_output += "Would you like me to read this out? "
 
         speechlet_response = utils.build_speechlet_response(
-            card_title=card_title, card_content=passage_text,
-            output=speech_output, reprompt_text=None,
-            should_end_session=should_end_session,
+            card_title=cards.get_passage_title(date, service),
+            card_content=cards.GET_PASSAGE_CONTENT.format(
+                passage_text=passage_text, passage=humanised_passage,
+                bible_translation=config.BIBLE_TRANSLATION
+            ),
+            output=speech.BIBLE_PASSAGE_RESPONSE.format(bible_passage=humanised_passage),
+            reprompt_text=None, should_end_session=should_end_session,
             directives=get_read_passage_directives)
 
-        return utils.build_response(session_attributes, speechlet_response)
+        return utils.build_response(speechlet_response)
 
     try:
-        to_read_passage = intent["slots"]["ReadPassage"]["resolutions"][
-                              "resolutionsPerAuthority"][0]["values"][0][
-                              "value"]["id"] == "YES"
+        to_read_passage = intent["slots"]["ReadPassage"]["resolutions"]["resolutionsPerAuthority"][
+                              0]["values"][0]["value"]["id"] == "YES"
     except KeyError:
-        speech_output = "Sorry, I didn't get that. Please could you repeat " \
-                        "that? "
-        speechlet_response = utils.build_speechlet_response(
-            output=speech_output, reprompt_text=None,
-            should_end_session=False,
-            directives=get_read_passage_directives)
-        return utils.build_response(session_attributes, speechlet_response)
+        speech_output = speech.PLEASE_REPEAT_GENERAL
+        speechlet_response = utils.build_speechlet_response(output=speech_output,
+                                                            reprompt_text=None,
+                                                            should_end_session=False,
+                                                            directives=get_read_passage_directives)
+        return utils.build_response(speechlet_response)
 
-    output = bible.remove_square_bracketed_verse_numbers(passage_text) \
-        if to_read_passage else "Okay "
-
-    speechlet_response = utils.build_speechlet_response(
-        output=output, reprompt_text=None,
-        should_end_session=True)
-
-    return utils.build_response(session_attributes, speechlet_response)
-
-
-def handle_get_next_event(intent, session):
-    # TODO: implement this method
-    session_attributes = {}
-    reprompt_text = None
-    speech_output = "You asked me for the next CCM event, but I can't do it " \
-                    "because I've not been programmed to yet. Sorry! "
-    should_end_session = True
-    return utils.build_response(
-        session_attributes, utils.build_speechlet_response(
-            output=speech_output, reprompt_text=reprompt_text,
-            should_end_session=should_end_session, card_content=None,
-            card_title=None
-        )
+    speech_output = (
+        speech.READ_RESPONSE.format(bible.remove_square_bracketed_verse_numbers(passage_text))
+        if to_read_passage
+        else speech.DO_NOT_READ_RESPONSE
     )
 
+    speechlet_response = utils.build_speechlet_response(output=speech_output, reprompt_text=None,
+                                                        should_end_session=True)
+    return utils.build_response(speechlet_response)
 
-def handle_play_sermon(intent, session):
-    session_attributes = {}
 
+def handle_get_next_event(intent):
+    # TODO: implement this method
+    reprompt_text = None
+    should_end_session = True
+    return utils.build_response(utils.build_speechlet_response(
+        output=speech.NEXT_EVENT, reprompt_text=reprompt_text,
+        should_end_session=should_end_session, card_content=None, card_title=None))
+
+
+def handle_play_sermon(intent):
     maybe_response = ensure_date_and_service_slots_filled(intent)
     if maybe_response:
         return maybe_response
 
     date, maybe_response = ensure_date_is_a_sunday(
-        intent, session_attributes,
-        future_days_go_back_year_threshold=config.get(
-            "future_days_go_back_year_threshold_sermons"))
+        intent,
+        future_days_go_back_year_threshold=config.FUTURE_DAYS_GO_BACK_YEAR_THRESHOLD_SERMONS)
     if maybe_response:
         return maybe_response
 
-    service, maybe_response = ensure_service_valid(intent, session_attributes)
+    service, maybe_response = ensure_service_valid(intent)
     if maybe_response:
         return maybe_response
 
-    maybe_response = ensure_date_is_not_in_the_future(date,
-                                                      session_attributes)
+    maybe_response = ensure_date_is_not_in_the_future(date)
     if maybe_response:
         return maybe_response
 
     sermon = sermons.get_sermon(date, service)
 
     if not sermon:
-        return utils.build_response(
-            session_attributes,
-            utils.build_speechlet_response(
-                output="I'm afraid that sermon isn't available. ",
-                reprompt_text=None,
-                should_end_session=True
-            )
-        )
+        return utils.build_response(utils.build_speechlet_response(
+            output=speech.SERMON_NOT_AVAILABLE, reprompt_text=None, should_end_session=True
+        ))
 
     reprompt_text = None
-    speech_output = "Here's the sermon, {}, by {} ".format(sermon["title"],
-                                                           sermon["speaker"])
     should_end_session = True
-    card_content = "{}\n{}\n{}".format(sermon["passage"], sermon["series_name"],
-                                       sermon["speaker"])
     return utils.build_response(
-        session_attributes, utils.build_audio_player_play_response(
-            output_speech=speech_output, reprompt_text=reprompt_text,
-            audio_stream_url=sermon["audio_url"],
+        utils.build_audio_player_play_response(
+            output_speech=speech.SERMON_PREAMBLE.format(sermon_title=sermon["title"],
+                                                        speaker=sermon["speaker"]),
+            reprompt_text=reprompt_text, audio_stream_url=sermon["audio_url"],
             should_end_session=should_end_session,
-            card_content=card_content,
-            card_title=sermon["title"]
-        )
+            card_content=cards.GET_SERMON_CONTENT.format(passage=sermon["passage"],
+                                                         series_name=sermon["series_name"],
+                                                         speaker=sermon["speaker"]),
+            card_title=cards.GET_SERMON_TITLE.format(sermon_title=sermon["title"]))
     )

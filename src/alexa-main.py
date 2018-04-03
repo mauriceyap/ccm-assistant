@@ -5,8 +5,7 @@ import handlers.events as events
 
 def lambda_handler(event, context):
     # Log input event to CloudWatch
-    print("EVENT OBJECT:")
-    print(json.dumps(event))
+    print("EVENT OBJECT:\n{event_json}".format(event_json=json.dumps(event)))
 
     # Make sure only this Alexa skill can use this function
     application_id = (
@@ -14,19 +13,17 @@ def lambda_handler(event, context):
         if "session" in event.keys()
         else event["context"]["System"]["application"]["applicationId"]
     )
-    if application_id != config.get("application_id"):
+    if application_id != config.APPLICATION_ID:
         raise ValueError("Invalid Application ID")
 
     if event["session"]["new"]:
-        events.on_session_started({"requestId": event["request"]["requestId"]},
-                                  event["session"])
+        events.on_session_started({"requestId": event["request"]["requestId"]}, event["session"])
 
     request_type = event["request"]["type"]
 
     if request_type == "LaunchRequest":
-        return events.on_launch(event["request"], event["session"])
+        return events.on_launch()
     elif request_type == "IntentRequest":
-        return events.on_intent(event["request"], event["session"],
-                                event["context"])
+        return events.on_intent(event["request"], event["session"], event["context"])
     elif request_type == "SessionEndedRequest":
         return events.on_session_ended(event["request"], event["session"])

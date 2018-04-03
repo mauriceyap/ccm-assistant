@@ -22,3 +22,14 @@ AWS Lambda function for Christ Church Mayfair Assistant Alexa skill.
   *Alexa, when's the next event from CCM?*
   
   ***Prayer meeting tomorrow evening at 6***
+  
+## Contributing
+### Adding bible passage readings for future sermons
+Add rows to `src/resources/data/passages.csv`
+
+### Running and testing locally:
+- Install dependencies by running `pip install -r src/requirements.txt`
+- Add these environment variables:
+  - `LAMBDA_TASK_ROOT` - the file path of the `src/` directory
+- Make the file, `src/secrets.py`, containing API keys and the like. Rename the file
+  `src/secrets.py.template` and either get your own keys or email mauriceyap@hotmail.co.uk
