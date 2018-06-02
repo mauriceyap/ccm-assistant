@@ -20,3 +20,6 @@ HTTP_MP3_TO_HTTPS_M3U_API_URL = ("https://0elu033c2a.execute-api.eu-west-1.amazo
 # Config for correction of AMAZON.Date defaulting to future date if year not given
 FUTURE_DAYS_GO_BACK_YEAR_THRESHOLD_SERMONS = 30
 FUTURE_DAYS_GO_BACK_YEAR_THRESHOLD_PASSAGES = 150
+
+# CCM Events
+EVENTS_JSON_URL = "https://ccmayfair.churchsuite.co.uk/embed/calendar/json"

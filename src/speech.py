@@ -21,9 +21,10 @@ READ_RESPONSE = "{passage_text}"
 DO_NOT_READ_RESPONSE = "Okay "
 
 # Get next event
-NEXT_EVENT = "I'm not able to get the next CCM event yet I'm afraid! "
+NEXT_EVENT = "The next event is {event_name} on {event_date_string}. "
+NO_EVENTS_FOUND = "I can't find CCM's next event. "
 
-#Get sermon
+# Get sermon
 SERMON_NOT_AVAILABLE = "I'm afraid that sermon isn't available. "
 SERMON_PREAMBLE = "Here's the sermon, {sermon_title}, by {speaker} "
 

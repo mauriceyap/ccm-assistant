@@ -2,6 +2,7 @@ import utils
 import resources.bible as bible
 import resources.passages as passages
 import resources.sermons as sermons
+import resources.events as events
 import config
 import cards
 import speech
@@ -15,7 +16,7 @@ def handle_welcome():
     reprompt_text = None
     return utils.build_response(
         utils.build_speechlet_response(card_title=cards.WELCOME_TITLE,
-                                       card_content=cards.WELCOME_CONTENT, output=speech_output,
+                                       card_text=cards.WELCOME_CONTENT, output=speech_output,
                                        reprompt_text=reprompt_text,
                                        should_end_session=should_end_session)
     )
@@ -25,7 +26,7 @@ def handle_session_end_request():
     should_end_session = True
     return utils.build_response(
         utils.build_speechlet_response(card_title=cards.END_SESSION_TITLE,
-                                       card_content=cards.END_SESSION_CONTENT,
+                                       card_text=cards.END_SESSION_CONTENT,
                                        output=speech.END_SESSION, reprompt_text=None,
                                        should_end_session=should_end_session)
     )
@@ -69,7 +70,7 @@ def handle_get_passage(intent):
 
         speechlet_response = utils.build_speechlet_response(
             card_title=cards.get_passage_title(date, service),
-            card_content=cards.GET_PASSAGE_CONTENT.format(
+            card_text=cards.GET_PASSAGE_CONTENT.format(
                 passage_text=passage_text, passage=humanised_passage,
                 bible_translation=config.BIBLE_TRANSLATION
             ),
@@ -102,12 +103,31 @@ def handle_get_passage(intent):
 
 
 def handle_get_next_event(intent):
-    # TODO: implement this method
     reprompt_text = None
     should_end_session = True
+    next_event = events.get_next_event()
+
+    if not next_event:
+        return utils.build_response(utils.build_speechlet_response(
+            output=speech.NO_EVENTS_FOUND,
+            reprompt_text=reprompt_text,
+            should_end_session=should_end_session))
+
+    next_event_datetime_string = next_event['datetime']
+
     return utils.build_response(utils.build_speechlet_response(
-        output=speech.NEXT_EVENT, reprompt_text=reprompt_text,
-        should_end_session=should_end_session, card_content=None, card_title=None))
+        output=speech.NEXT_EVENT,
+        reprompt_text=reprompt_text,
+        should_end_session=should_end_session,
+        card_text=cards.get_next_event_content(
+            event_description=next_event['description'],
+            event_location_name=next_event['location_name'],
+            event_location_address=next_event['location_address']),
+        card_title=cards.GET_NEXT_EVENT_TITLE.format(
+            event_title=next_event['event_title'],
+            event_datetime_string=next_event_datetime_string),
+        card_small_image_url=next_event['small_image_url'],
+        card_large_image_url=next_event['large_image_url']))
 
 
 def handle_play_sermon(intent):

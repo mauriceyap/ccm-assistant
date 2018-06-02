@@ -10,7 +10,8 @@ def convert_http_mp3_to_https_m3u(http_mp3_url):
 
 
 def build_speechlet_response(output, reprompt_text, should_end_session, directives=None,
-                             card_title=None, card_content=None):
+                             card_title=None, card_text=None, card_small_image_url=None,
+                             card_large_image_url=None):
     speechlet_response = {
         "outputSpeech": {
             "type": "PlainText",
@@ -26,12 +27,21 @@ def build_speechlet_response(output, reprompt_text, should_end_session, directiv
     }
     if directives:
         speechlet_response["directives"] = directives
-    if card_title and card_content:
+    if card_title and card_text:
         card = {
-            "type": "Simple",
-            "title": card_title,
-            "content": card_content
+            "title": card_title
         }
+        if card_small_image_url and card_large_image_url:
+            card["type"] = "Standard"
+            card["text"] = card_text
+            card["image"] = {
+                "smallImageUrl": card_small_image_url,
+                "largeImageUrl": card_large_image_url
+            }
+        else:
+            card["type"] = "Simple"
+            card["content"] = card_text
+
         speechlet_response["card"] = card
     return speechlet_response
 

@@ -26,3 +26,19 @@ def get_passage_title(date, service):
 # Get sermon
 GET_SERMON_TITLE = "{sermon_title}"
 GET_SERMON_CONTENT = "{passage}\n{series_name}\n{speaker}"
+
+# Get next event
+GET_NEXT_EVENT_TITLE = "{event_title} - {event_datetime_string}"
+
+
+def get_next_event_content(event_description, event_location_name, event_location_address):
+    return (
+        "{event_description}\n{event_location_name}\n{event_location_address}".format(
+            event_description=event_description,
+            event_location_name=event_location_name,
+            event_location_address=event_location_address
+        )
+        if event_description
+        else "{event_location_name}\n{event_location_address}".format(
+            event_location_name=event_location_name,
+            event_location_address=event_location_address))
