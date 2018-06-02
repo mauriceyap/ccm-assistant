@@ -1,3 +1,4 @@
 *.pyc
 .idea/*
 src/secrets.py
+*.DS_Store
