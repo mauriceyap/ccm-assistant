@@ -117,7 +117,7 @@ def handle_get_next_event(intent):
 
     return utils.build_response(utils.build_speechlet_response(
         output=speech.NEXT_EVENT.format(event_name=next_event['name'],
-                                        event_date_string=next_event['next_event_datetime_string']),
+                                        event_date_string=next_event['datetime']),
         reprompt_text=reprompt_text,
         should_end_session=should_end_session,
         card_text=cards.get_next_event_content(
