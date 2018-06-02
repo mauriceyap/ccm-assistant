@@ -21,7 +21,7 @@ READ_RESPONSE = "{passage_text}"
 DO_NOT_READ_RESPONSE = "Okay "
 
 # Get next event
-NEXT_EVENT = "The next event is {event_name} on {event_date_string}. "
+NEXT_EVENT = "The next event is {event_name} on {event_date_string} at {event_time_string}. "
 NO_EVENTS_FOUND = "I can't find CCM's next event. "
 
 # Get sermon

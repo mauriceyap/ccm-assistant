@@ -114,12 +114,15 @@ def handle_get_next_event(intent):
             reprompt_text=reprompt_text,
             should_end_session=should_end_session))
 
-    next_event_datetime_string_card = datetime.strftime(next_event['datetime'], "%d %B at %H:%m")
-    next_event_datetime_string_speech = datetime.strftime(next_event['datetime'], "%H:%m %d %B")
+    next_event_date_string_card = datetime.strftime(next_event['datetime'], "%d %B at %H:%m")
+    next_event_time_string_card = datetime.strftime(next_event['datetime'], "%d %B at %H:%m")
+    next_event_date_string_speech = datetime.strftime(next_event['datetime'], "%d %B")
+    next_event_time_string_speech = datetime.strftime(next_event['datetime'], "%H:%M")
 
     return utils.build_response(utils.build_speechlet_response(
         output=speech.NEXT_EVENT.format(event_name=next_event['name'],
-                                        event_date_string=next_event_datetime_string_speech),
+                                        event_date_string=next_event_date_string_speech,
+                                        event_time_string=next_event_time_string_speech),
         reprompt_text=reprompt_text,
         should_end_session=should_end_session,
         card_text=cards.get_next_event_content(
@@ -128,7 +131,8 @@ def handle_get_next_event(intent):
             event_location_address=next_event['location_address']),
         card_title=cards.GET_NEXT_EVENT_TITLE.format(
             event_title=next_event['name'],
-            event_datetime_string=next_event_datetime_string_card),
+            event_date_string=next_event_date_string_card,
+            event_time_string=next_event_time_string_card),
         card_small_image_url=next_event['small_image_url'],
         card_large_image_url=next_event['large_image_url']))
 

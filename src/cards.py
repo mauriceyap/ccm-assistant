@@ -28,7 +28,7 @@ GET_SERMON_TITLE = "{sermon_title}"
 GET_SERMON_CONTENT = "{passage}\n{series_name}\n{speaker}"
 
 # Get next event
-GET_NEXT_EVENT_TITLE = "{event_title} - {event_datetime_string}"
+GET_NEXT_EVENT_TITLE = "{event_title} - {event_time_string} {event_date_string}"
 
 
 def get_next_event_content(event_description, event_location_name, event_location_address):
