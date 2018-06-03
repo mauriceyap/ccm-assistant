@@ -6,7 +6,6 @@ import resources.events as events
 import config
 import cards
 import speech
-from datetime import datetime
 from .intents_utils import ensure_date_and_service_slots_filled, ensure_date_is_a_sunday, \
     ensure_service_valid, ensure_date_is_not_in_the_future
 
@@ -19,8 +18,7 @@ def handle_welcome():
         utils.build_speechlet_response(card_title=cards.WELCOME_TITLE,
                                        card_text=cards.WELCOME_CONTENT, output=speech_output,
                                        reprompt_text=reprompt_text,
-                                       should_end_session=should_end_session)
-    )
+                                       should_end_session=should_end_session))
 
 
 def handle_session_end_request():
@@ -29,8 +27,7 @@ def handle_session_end_request():
         utils.build_speechlet_response(card_title=cards.END_SESSION_TITLE,
                                        card_text=cards.END_SESSION_CONTENT,
                                        output=speech.END_SESSION, reprompt_text=None,
-                                       should_end_session=should_end_session)
-    )
+                                       should_end_session=should_end_session))
 
 
 def handle_get_passage(intent):
@@ -103,7 +100,7 @@ def handle_get_passage(intent):
     return utils.build_response(speechlet_response)
 
 
-def handle_get_next_event(intent):
+def handle_get_next_event():
     reprompt_text = None
     should_end_session = True
     next_event = events.get_next_event()
@@ -114,25 +111,18 @@ def handle_get_next_event(intent):
             reprompt_text=reprompt_text,
             should_end_session=should_end_session))
 
-    next_event_date_string_card = datetime.strftime(next_event['datetime'], "%d %B at %H:%m")
-    next_event_time_string_card = datetime.strftime(next_event['datetime'], "%d %B at %H:%m")
-    next_event_date_string_speech = datetime.strftime(next_event['datetime'], "%d %B")
-    next_event_time_string_speech = datetime.strftime(next_event['datetime'], "%H:%M")
-
     return utils.build_response(utils.build_speechlet_response(
-        output=speech.NEXT_EVENT.format(event_name=next_event['name'],
-                                        event_date_string=next_event_date_string_speech,
-                                        event_time_string=next_event_time_string_speech),
+        output=speech.get_next_event(event_name=next_event['name'],
+                                     event_datetime=next_event['datetime']),
         reprompt_text=reprompt_text,
         should_end_session=should_end_session,
         card_text=cards.get_next_event_content(
             event_description=next_event['description'],
             event_location_name=next_event['location_name'],
             event_location_address=next_event['location_address']),
-        card_title=cards.GET_NEXT_EVENT_TITLE.format(
+        card_title=cards.get_next_event_title(
             event_title=next_event['name'],
-            event_date_string=next_event_date_string_card,
-            event_time_string=next_event_time_string_card),
+            event_datetime=next_event['datetime']),
         card_small_image_url=next_event['small_image_url'],
         card_large_image_url=next_event['large_image_url']))
 
@@ -160,8 +150,7 @@ def handle_play_sermon(intent):
 
     if not sermon:
         return utils.build_response(utils.build_speechlet_response(
-            output=speech.SERMON_NOT_AVAILABLE, reprompt_text=None, should_end_session=True
-        ))
+            output=speech.SERMON_NOT_AVAILABLE, reprompt_text=None, should_end_session=True))
 
     reprompt_text = None
     should_end_session = True
@@ -174,5 +163,4 @@ def handle_play_sermon(intent):
             card_content=cards.GET_SERMON_CONTENT.format(passage=sermon["passage"],
                                                          series_name=sermon["series_name"],
                                                          speaker=sermon["speaker"]),
-            card_title=cards.GET_SERMON_TITLE.format(sermon_title=sermon["title"]))
-    )
+            card_title=cards.GET_SERMON_TITLE.format(sermon_title=sermon["title"])))

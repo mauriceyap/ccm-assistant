@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 # Welcome
 WELCOME_TITLE = "Christ Church Mayfair Assistant"
 WELCOME_CONTENT = "Welcome! Ask me for the bible reading for a service or a past sermon."
@@ -28,7 +31,14 @@ GET_SERMON_TITLE = "{sermon_title}"
 GET_SERMON_CONTENT = "{passage}\n{series_name}\n{speaker}"
 
 # Get next event
-GET_NEXT_EVENT_TITLE = "{event_title} - {event_time_string} {event_date_string}"
+
+
+def get_next_event_title(event_title, event_datetime):
+    date_string = datetime.strftime(event_datetime, "%A %d %B")
+    time_string = datetime.strftime(event_datetime, "%H:%m")
+    return "{event_title} - {time_string} at {date_string}".format(event_title=event_title,
+                                                                   time_string=time_string,
+                                                                   date_string=date_string)
 
 
 def get_next_event_content(event_description, event_location_name, event_location_address):

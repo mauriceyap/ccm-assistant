@@ -23,7 +23,7 @@ def on_intent(intent_request, session, context):
     elif intent_name == "PlaySermon":
         return intents.handle_play_sermon(intent)
     elif intent_name == "GetNextEvent":
-        return intents.handle_get_next_event(intent)
+        return intents.handle_get_next_event()
     elif intent_name == "AMAZON.HelpIntent":
         return intents.handle_welcome()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":

@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 IRRELEVANT_AUDIO_INTENT = "I can't do that for a sermon. "
 PLEASE_REPEAT_GENERAL = "Sorry, I didn't get that. Please could you repeat that? "
 PLEASE_REPEAT_SERVICE = ("Sorry, I didn't get which service you wanted. "
@@ -21,11 +24,17 @@ READ_RESPONSE = "{passage_text}"
 DO_NOT_READ_RESPONSE = "Okay "
 
 # Get next event
-NEXT_EVENT = "The next event is {event_name} on {event_date_string} at {event_time_string}. "
-NO_EVENTS_FOUND = "I can't find CCM's next event. "
+
+
+def get_next_event(event_name, event_datetime):
+    date_string = datetime.strftime(event_datetime, "%A %d %B")
+    time_string = datetime.strftime(event_datetime, "%H:%M")
+    return "The next event is {event_name} on {date_string} at {time_string}. ".format(
+        event_name=event_name, date_string=date_string, time_string=time_string)
+
+
+NO_EVENTS_FOUND = "There aren't any upcoming events. "
 
 # Get sermon
 SERMON_NOT_AVAILABLE = "I'm afraid that sermon isn't available. "
 SERMON_PREAMBLE = "Here's the sermon, {sermon_title}, by {speaker} "
-
-
