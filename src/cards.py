@@ -43,7 +43,7 @@ def get_next_event_title(event_title, event_datetime):
 
 def get_next_event_content(event_description, event_location_name):
     return (
-        "{event_description}\n{event_location_name}".format(
+        "{event_description}\nLocation: {event_location_name}".format(
             event_description=event_description,
             event_location_name=event_location_name)
         if event_description
