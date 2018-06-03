@@ -90,7 +90,8 @@ def handle_get_passage(intent):
         return utils.build_response(speechlet_response)
 
     speech_output = (
-        speech.READ_RESPONSE.format(bible.remove_square_bracketed_verse_numbers(passage_text))
+        speech.READ_RESPONSE.format(
+            passage_text=bible.remove_square_bracketed_verse_numbers(passage_text))
         if to_read_passage
         else speech.DO_NOT_READ_RESPONSE
     )
