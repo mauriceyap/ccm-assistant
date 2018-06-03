@@ -9,7 +9,7 @@ def get_passage(date, service):
               "r") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            if row['date'] in (date.strftime('%Y-%m-%d'), date.strftime('%Y/%m/%d')):
+            if row['date'] == date.strftime('%Y-%m-%d'):
                 if not row['{} book'.format(service)]:
                     return None
 
