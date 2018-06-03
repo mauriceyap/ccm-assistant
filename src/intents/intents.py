@@ -118,8 +118,7 @@ def handle_get_next_event():
         should_end_session=should_end_session,
         card_text=cards.get_next_event_content(
             event_description=next_event['description'],
-            event_location_name=next_event['location_name'],
-            event_location_address=next_event['location_address']),
+            event_location_name=next_event['location_name']),
         card_title=cards.get_next_event_title(
             event_title=next_event['name'],
             event_datetime=next_event['datetime']),

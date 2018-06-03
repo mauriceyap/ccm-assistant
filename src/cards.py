@@ -41,14 +41,10 @@ def get_next_event_title(event_title, event_datetime):
                                                                    date_string=date_string)
 
 
-def get_next_event_content(event_description, event_location_name, event_location_address):
+def get_next_event_content(event_description, event_location_name):
     return (
-        "{event_description}\n{event_location_name}\n{event_location_address}".format(
+        "{event_description}\n{event_location_name}".format(
             event_description=event_description,
-            event_location_name=event_location_name,
-            event_location_address=event_location_address
-        )
+            event_location_name=event_location_name)
         if event_description
-        else "{event_location_name}\n{event_location_address}".format(
-            event_location_name=event_location_name,
-            event_location_address=event_location_address))
+        else "{event_location_name}".format(event_location_name=event_location_name))

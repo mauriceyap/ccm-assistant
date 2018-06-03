@@ -33,7 +33,6 @@ def get_next_event():
         if event["datetime_start"]
         else None)
     event_location_name = event["location"]["name"] if event["location"]["name"] else ""
-    event_location_address = event["location"]["address"] if event["location"]["address"] else ""
     event_small_image_url = (
         event["images"]["original_500"]
         if (event["images"] and event["images"]["original_500"])
@@ -48,7 +47,6 @@ def get_next_event():
         "datetime": event_datetime,
         "description": strip_html_tags(html_unescape(html_unescape(event_description))),
         "location_name": event_location_name,
-        "location_address": event_location_address,
         "small_image_url": event_small_image_url,
         "large_image_url": event_large_image_url
     }
