@@ -1,9 +1,15 @@
 import config
 import requests
+import re
 from datetime import datetime
+from HTMLParser import HTMLParser
 
 
 EVENT_NAMES_TO_IGNORE = ["10.15 Service", "6pm Service"]
+
+
+def strip_html_tags(s):
+    return re.sub(r"<.*?>", "", s)
 
 
 def get_next_event():
@@ -36,11 +42,11 @@ def get_next_event():
         event["images"]["original_1000"]
         if (event["images"] and event["images"]["original_1000"])
         else None)
-
+    html_unescape = HTMLParser().unescape
     return {
         "name": event_name,
         "datetime": event_datetime,
-        "description": event_description,
+        "description": strip_html_tags(html_unescape(html_unescape(event_description))),
         "location_name": event_location_name,
         "location_address": event_location_address,
         "small_image_url": event_small_image_url,
