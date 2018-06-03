@@ -36,9 +36,9 @@ GET_SERMON_CONTENT = "{passage}\n{series_name}\n{speaker}"
 def get_next_event_title(event_title, event_datetime):
     date_string = datetime.strftime(event_datetime, "%A %d %B")
     time_string = datetime.strftime(event_datetime, "%H:%M")
-    return "{event_title} - {time_string} at {date_string}".format(event_title=event_title,
-                                                                   time_string=time_string,
-                                                                   date_string=date_string)
+    return "{event_title} - {time_string}, {date_string}".format(event_title=event_title,
+                                                                 time_string=time_string,
+                                                                 date_string=date_string)
 
 
 def get_next_event_content(event_description, event_location_name):
