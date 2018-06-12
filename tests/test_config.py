@@ -1,6 +1,5 @@
 import unittest
-import src.config as config
-import re
+import config
 
 
 class TestConfig(unittest.TestCase):
@@ -26,7 +25,3 @@ class TestConfig(unittest.TestCase):
 
     def test_ccm_events_variables_exist(self):
         self.exists_in_config("EVENTS_JSON_URL")
-
-
-if __name__ == '__main__':
-    unittest.main()

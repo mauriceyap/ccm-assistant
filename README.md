@@ -33,5 +33,6 @@ format.** If you're using Excel, select the date column, *Format > Cells* and se
 - Install dependencies by running `pip install -r src/requirements.txt`
 - Add these environment variables:
   - `LAMBDA_TASK_ROOT` - the file path of the `src/` directory
+  - `PYTHONPATH` - the file path of the `src/` directory
 - Make the file, `src/secrets.py`, containing API keys and the like. Copy across the content from
   `src/secrets.py.template` and either get your own keys or email mauriceyap@hotmail.co.uk

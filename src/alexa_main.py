@@ -12,12 +12,11 @@ def lambda_handler(event, context):
     application_id = (
         event["session"]["application"]["applicationId"]
         if "session" in event.keys()
-        else event["context"]["System"]["application"]["applicationId"]
-    )
+        else event["context"]["System"]["application"]["applicationId"])
     if application_id != config.APPLICATION_ID:
         raise ValueError("Invalid Application ID")
 
-    if event["session"] and event["session"]["new"]:
+    if "session" in event.keys() and event["session"] and event["session"]["new"]:
         events.on_session_started({"requestId": event["request"]["requestId"]}, event["session"])
 
     request_type = event["request"]["type"]

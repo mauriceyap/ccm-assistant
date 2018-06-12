@@ -17,7 +17,7 @@ install:
 - pip install --target=src -r src/requirements.txt
 
 script:
-- python -m unittest discover test
+- python -m unittest discover -s tests -t tests -b
 
 after_success:
 - cd src
@@ -32,7 +32,7 @@ deploy:
   region: eu-west-1
   role: arn:aws:iam::882482748234:role/lambda_basic_execution
   runtime: python2.7
-  module_name: alexa-main
+  module_name: alexa_main
   handler_name: lambda_handler
   zip: deploy-zip/alexa.zip
   timeout: 6
@@ -43,5 +43,6 @@ deploy:
 
 env:
   global:
+    PYTHONPATH: $TRAVIS_BUILD_DIR/src
     secure: yG7hiwv1zZAn+n0SRURi+mMomKgJ/luWjk7dDZRqICMmUiCOf7FZwhcb0NY9/fOz6U4OUsHOMEgqtCqZtP4DsOcja+MTrlvwbVgSPzspJLNdoNwTFNbY4pKYayrwdhzhhVCOkVHMR4xqBHN6PaPdzXUQAZHMmauXM27ZRHAv0QwLf2tq+zcATQNABV4Enh31a0AloKq3uET0So5heOqzemKKNSFvToyNZRsoJnVoR6CNGCixZbY5DayXE/8ztOt5FEQ9qxaUaqjTG1XGtqwmsr5hnsltDEVi7kU3kjcFAJq9kt9Q//qWLrgS2vJoRa/sXkMS09zgadYJ8sNpO4ZohQ1fzcW35lxl3AD9Fp8WZjkK+eFxeGKavLlEG6av4XnZRiHk+2U8hU0kX/qQVP9v8KbuwXQ3pktDs3YiKUQdj7XRnnTzMzfqCNxv05aQjzw7Rc2ktvhxhVbdUrk/72wvMycZS7auT63mrbID/F35ym1SFJP1ZY6TV+/otFLcpgbC1iTk/vhQeJZWwR2uaPYhAb4zoKdXCbSDbElwWTtji9W0VQOSEzo8dt0PHjUl3Ki8n2rsZDb39DiF+oZ3RnRN9UCEkpNI4nW7zoNW0fcnfz/bmnOPTxhIAZGO1Mnbj97pd0PV6Iq04bpkV3DUfgNAbQ3AhhusasgYuKdmBUlGdro=
 

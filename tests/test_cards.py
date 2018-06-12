@@ -1,6 +1,7 @@
 import unittest
-import src.cards as cards
 from datetime import date, datetime
+
+import cards
 
 
 class TestCards(unittest.TestCase):
@@ -29,7 +30,3 @@ class TestCards(unittest.TestCase):
         self.assertEqual(cards.get_next_event_content("", "The Moon"), "The Moon")
         self.assertEqual(cards.get_next_event_content("Brunch for Women", "Christ Church Mayfair"),
                          "Brunch for Women\nLocation: Christ Church Mayfair")
-
-
-if __name__ == '__main__':
-    unittest.main()
