@@ -29,14 +29,17 @@ def get_bible_text(book, start_chapter, start_verse, end_chapter, end_verse,
             book=book, start_chapter=start_chapter, start_verse=start_verse,
             end_chapter=end_chapter, end_verse=end_verse)
     }
-    response = requests.get(config.BIBLE_API_URL, params=payload, auth=(secrets.BIBLE_API_KEY, "X"))
-    print("Bible API call url: {url}".format(url=response.url))
-    passage_html = response.json()["response"]["search"]["result"]["passages"][0]["text"]
-    processed_passage = process_html_passage(passage_html)
-    if not with_verse_numbers:
-        # Remove section headings
-        processed_passage = re.sub(r"( )*\[(.*?)\]( )*", "", processed_passage)
-    return processed_passage
+    try:
+        response = requests.get(config.BIBLE_API_URL, params=payload, auth=(secrets.BIBLE_API_KEY, "X"))
+        passage_html = response.json()["response"]["search"]["result"]["passages"][0]["text"]
+        processed_passage = process_html_passage(passage_html)
+        if not with_verse_numbers:
+            # Remove section headings
+            processed_passage = re.sub(r"( )*\[(.*?)\]( )*", "", processed_passage)
+        return processed_passage
+    except requests.exceptions.RequestException as e:
+        print(e)
+        return None
 
 
 def remove_square_bracketed_verse_numbers(s):

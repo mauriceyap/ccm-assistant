@@ -13,11 +13,14 @@ def strip_html_tags(s):
 
 
 def get_next_event():
-    events = requests.get(config.EVENTS_JSON_URL).json()  # TODO: handle connection failures
-    events = [e
-              for e in events
-              if (e["name"] not in EVENT_NAMES_TO_IGNORE and
-                  datetime.strptime(e["datetime_start"], "%Y-%m-%d %H:%M:%S") > datetime.now())]
+    try:
+        events = [e
+                  for e in requests.get(config.EVENTS_JSON_URL).json()
+                  if (e["name"] not in EVENT_NAMES_TO_IGNORE and
+                      datetime.strptime(e["datetime_start"], "%Y-%m-%d %H:%M:%S") > datetime.now())]
+    except requests.exceptions.RequestException as e:
+        print(e)
+        return None
 
     if not events:
         return None
