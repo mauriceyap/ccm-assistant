@@ -1,4 +1,4 @@
-# Christ Church Mayfair Assistant
+# Christ Church Mayfair Amazon Alexa Skill
 
 ![](https://travis-ci.org/travis-ci/travis-web.svg?branch=master)
 
@@ -9,7 +9,7 @@ AWS Lambda function for Christ Church Mayfair Assistant Alexa skill.
   
   *Alexa, get me the reading for the morning service this Sunday from CCM?*
   
-  ***Matthew chapter 17, verses 21 to 28 - would you like me to read it?***
+  ***It's Matthew chapter 17, verses 21 to 28 - would you like me to read it?***
   
 - Plays recordings of past sermons
 
@@ -21,7 +21,7 @@ AWS Lambda function for Christ Church Mayfair Assistant Alexa skill.
 
   *Alexa, when's the next event from CCM?*
   
-  ***Prayer meeting tomorrow evening at 6***
+  ***The next event is prayer meeting tomorrow evening at 6 in the evening***
   
 ## Contributing
 ### Adding bible passage readings for future sermons
@@ -36,3 +36,10 @@ format.** If you're using Excel, select the date column, *Format > Cells* and se
   - `PYTHONPATH` - the file path of the `src/` directory
 - Make the file, `src/secrets.py`, containing API keys and the like. Copy across the content from
   `src/secrets.py.template` and either get your own keys or email mauriceyap@hotmail.co.uk
+  
+### TODO:
+- [] Add tests
+- [] Migrate bible passage database from static csv file to Google Sheets
+- [] Investigate licencing for using NIV bible
+- [] Improve handling of errors in general
+- [] Add instructions for forking and using for other churches, including deployment etc.
