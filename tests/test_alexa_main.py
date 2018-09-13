@@ -43,10 +43,10 @@ class TestAlexaMain(unittest.TestCase):
 
         with self.assertRaises(ValueError) as cm_session_event:
             alexa_main.lambda_handler(test_session_event_with_invalid_id, None)
-        with self.assertRaises(ValueError) as cm_conext_event:
+        with self.assertRaises(ValueError) as cm_context_event:
             alexa_main.lambda_handler(test_context_only_event_with_invalid_id, None)
         self.assertEqual(cm_session_event.exception.message, "Invalid Application ID")
-        self.assertEqual(cm_conext_event.exception.message, "Invalid Application ID")
+        self.assertEqual(cm_context_event.exception.message, "Invalid Application ID")
         on_session_started.assert_not_called()
         on_launch.assert_not_called()
 

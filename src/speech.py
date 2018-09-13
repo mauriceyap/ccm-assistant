@@ -26,9 +26,17 @@ DO_NOT_READ_RESPONSE = "Okay "
 # Get next event
 
 
+def time_to_speech(event_datetime):
+    is_evening = event_datetime.hour >= 17
+    return "{hour}:{minute}{option_in_evening}".format(
+        hour=(event_datetime.hour % 12),
+        minute=event_datetime.minute,
+        option_in_evening=(" in the evening" if is_evening else ""))
+
+
 def get_next_event(event_name, event_datetime):
     date_string = datetime.strftime(event_datetime, "%A %d %B")
-    time_string = datetime.strftime(event_datetime, "%H:%M")
+    time_string = time_to_speech(event_datetime)
     return "The next event is {event_name} on {date_string} at {time_string}. ".format(
         event_name=event_name, date_string=date_string, time_string=time_string)
 
